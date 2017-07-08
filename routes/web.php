@@ -11,4 +11,6 @@
 |
 */
 
-$app->get('/', ['uses' => 'IndexController@index']);
+$app->get('/', ['uses' => 'IndexController@index', 'name' => 'index']);
+
+$app->get('containers', ['uses' => 'User\ContainerController@index', 'name' => 'user.containers.index']);

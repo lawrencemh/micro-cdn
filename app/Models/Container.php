@@ -14,6 +14,15 @@ class Container extends Model
     protected $table = 'containers';
     
     /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'user_id',
+    ];
+    
+    /**
      * Get the user that the container belongs to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
