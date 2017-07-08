@@ -21,7 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Boot the authentication services for the application.
      *
-     * @return void
+     * @return \App\Models\User|null
      */
     public function boot()
     {
@@ -33,10 +33,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->app['auth']->viaRequest('api', function ($request) {
             $attributes = $request->all();
             $apiToken = $attributes['api_token'] ?? null;
-
-            if (!is_null($apiToken)) {
-                return User::where('api_token', $apiToken)->first();
-            }
+            
+            return User::where('api_token', $apiToken)->first();
         });
     }
 }
