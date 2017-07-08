@@ -11,6 +11,4 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return response()->json(['status' => true]);
-});
+$app->get('/', ['uses' => 'IndexController@index']);
