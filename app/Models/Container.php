@@ -20,6 +20,7 @@ class Container extends Model
      */
     protected $hidden = [
         'user_id',
+        'user',
     ];
     
     /**
