@@ -31,6 +31,39 @@ class ContainerController extends Controller
         
         return response()->json($containers, 200);
     }
+
+    /**
+     * Return a JSON list of the given container's attributes.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $containerId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Request $request, $containerId)
+    {
+        try {
+
+            // Get the given container belonging to the user
+            $container = $request->user()->containers()->findOrFail($containerId)->toArray();
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            // Resource not found or not owned by authorised user
+            return response()->json([
+                'errors' => [
+                    'Resource not found',
+                ],
+            ], 404);
+
+        }
+
+        return response()->json([
+            'data' => array_merge($container, [
+                'entity_status' => 'exists',
+                'type' => 'Container',
+            ]),
+        ], 200);
+    }
     
     /**
      * Store a new Container for the authorised user in the database.
@@ -57,6 +90,11 @@ class ContainerController extends Controller
         $container->save();
         
         // Return container attributes & 201 success created response
-        return response()->json($container, 201);
+        return response()->json([
+            'data' => array_merge($container->toArray(), [
+                'entity_status' => 'created',
+                'type' => 'Container',
+            ]),
+        ], 201);
     }
 }
