@@ -97,4 +97,41 @@ class ContainerController extends Controller
             ]),
         ], 201);
     }
+
+    /**
+     * Delete the given user's container from storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $containerId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Request $request, $containerId)
+    {
+        try {
+
+            // Get the given container belonging to the user
+            $container = $request->user()->containers()->findOrFail($containerId);
+
+            // Delete the container
+            $container->delete();
+
+            return response()->json([
+                'data' => array_merge($container->toArray(), [
+                    'entity_status' => 'deleted',
+                    'type' => 'Container',
+                ]),
+            ], 202);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            // Resource not found or not owned by authorised user
+            return response()->json([
+                'errors' => [
+                    'Resource not found',
+                ],
+            ], 404);
+
+        }
+
+    }
 }

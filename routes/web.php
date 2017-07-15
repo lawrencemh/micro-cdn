@@ -15,4 +15,5 @@ $app->get('/', ['uses' => 'IndexController@index', 'name' => 'index']);
 
 $app->get('containers', ['uses' => 'User\ContainerController@index', 'name' => 'user.containers.index']);
 $app->get('containers/{container}', ['uses' => 'User\ContainerController@show', 'name' => 'user.containers.show']);
+$app->delete('containers/{container}', ['uses' => 'User\ContainerController@destroy', 'name' => 'user.containers.destroy']);
 $app->post('containers', ['uses' => 'User\ContainerController@store', 'name' => 'user.containers.store']);
