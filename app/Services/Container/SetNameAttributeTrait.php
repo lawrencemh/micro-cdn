@@ -7,7 +7,7 @@ trait SetNameAttributeTrait
     /**
      * Set the name of the container.
      *
-     * @param stirng $name
+     * @param string $name
      * @return $this
      */
     public function setName($name)
