@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Services\ContainerService;
 use App\Http\Controllers\Controller;
+use App\Repositories\Contracts\ContainerRepositoryInterface;
 
 class ContainerController extends Controller
 {
+    /**
+     * The container repository instance.
+     *
+     * @var \App\Repositories\Contracts\ContainerRepositoryInterface
+     */
+    protected $containerRepository;
+
     /**
      * The container service instance.
      *
@@ -19,15 +27,18 @@ class ContainerController extends Controller
     /**
      * ContainerController constructor.
      *
+     * @param \App\Repositories\Contracts\ContainerRepositoryInterface $containerRepository
      * @param \App\Services\ContainerService $containerService
      * @return void
      */
     public function __construct(
+        ContainerRepositoryInterface $containerRepository,
         ContainerService $containerService
     )
     {
         $this->middleware('auth');
 
+        $this->containerRepository = $containerRepository;
         $this->containerService = $containerService;
     }
 
