@@ -51,6 +51,17 @@ class ContainerRepository implements ContainerRepositoryInterface
     }
 
     /**
+     * Save the given container in storage.
+     *
+     * @param \App\Models\Container $container
+     * @return bool
+     */
+    public function save(Container $container)
+    {
+        return $container->save();
+    }
+
+    /**
      * Delete the given container from storage.
      *
      * @param \App\Models\Container $container

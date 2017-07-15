@@ -11,7 +11,7 @@ trait SaveTrait
      */
     public function save()
     {
-        $this->container->save();
+        $this->containerRepository->save($this->container);
 
         return $this->container;
     }

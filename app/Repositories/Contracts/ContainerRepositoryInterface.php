@@ -25,6 +25,14 @@ interface ContainerRepositoryInterface
     public function getContainerBelongingToUser(User $user, $containerId);
 
     /**
+     * Save the given container in storage.
+     *
+     * @param \App\Models\Container $container
+     * @return bool
+     */
+    public function save(Container $container);
+
+    /**
      * Delete the given container from storage.
      *
      * @param \App\Models\Container $container

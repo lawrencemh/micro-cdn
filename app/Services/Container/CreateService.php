@@ -4,6 +4,7 @@ namespace App\Services\Container;
 
 use App\Models\User;
 use App\Models\Container;
+use App\Repositories\Contracts\ContainerRepositoryInterface;
 
 class CreateService
 {
@@ -18,13 +19,22 @@ class CreateService
     protected $container;
 
     /**
+     * The container repository instance.
+     *
+     * @var \App\Repositories\Contracts\ContainerRepositoryInterface
+     */
+    protected $containerRepository;
+
+    /**
      * CreateService constructor.
      *
+     * @param \App\Repositories\Contracts\ContainerRepositoryInterface $containerRepository
      * @return void
      */
-    public function __construct()
+    public function __construct(ContainerRepositoryInterface $containerRepository)
     {
         $this->container = new Container;
+        $this->containerRepository = $containerRepository;
     }
 
     /**

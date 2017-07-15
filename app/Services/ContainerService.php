@@ -17,7 +17,7 @@ class ContainerService
      */
     public function create()
     {
-        return new CreateService;
+        return new CreateService(app(ContainerRepositoryInterface::class));
     }
 
     /**
@@ -28,7 +28,7 @@ class ContainerService
      */
     public function update(Container $container)
     {
-        return new UpdateService($container);
+        return new UpdateService($container, app(ContainerRepositoryInterface::class));
     }
 
     /**
