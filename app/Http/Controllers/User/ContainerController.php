@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Services\ResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Services\ContainerService;
@@ -52,7 +53,11 @@ class ContainerController extends Controller
     {
         // Get all the users containers in array format
         $containers = $this->containerRepository->getAllContainersBelongingToUser($request->user());
-        
+
+        return (new ResponseService)->json()
+            ->setReturnObject($containers->toArray(), 'Container')
+            ->render();
+
         return response()->json($containers, 200);
     }
 
@@ -68,6 +73,10 @@ class ContainerController extends Controller
         try {
             // Get the given container belonging to the user
             $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+
+            return (new ResponseService)->json()
+                ->setReturnObject($container->toArray(), 'Container')
+                ->render();
 
             return response()->json([
                 'data' => array_merge($container, [
