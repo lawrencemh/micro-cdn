@@ -49,4 +49,15 @@ class ContainerRepository implements ContainerRepositoryInterface
         return $this->container->where('user_id', $user->id)
             ->where('id', $containerId)->firstOrFail();
     }
+
+    /**
+     * Delete the given container from storage.
+     *
+     * @param \App\Models\Container $container
+     * @return bool
+     */
+    public function delete(Container $container)
+    {
+        return $container->delete();
+    }
 }

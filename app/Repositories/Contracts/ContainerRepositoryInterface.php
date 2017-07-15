@@ -3,6 +3,7 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\User;
+use App\Models\Container;
 
 interface ContainerRepositoryInterface
 {
@@ -22,4 +23,12 @@ interface ContainerRepositoryInterface
      * @return mixed
      */
     public function getContainerBelongingToUser(User $user, $containerId);
+
+    /**
+     * Delete the given container from storage.
+     *
+     * @param \App\Models\Container $container
+     * @return bool
+     */
+    public function delete(Container $container);
 }

@@ -6,6 +6,7 @@ use App\Models\Container;
 use App\Services\Container\CreateService;
 use App\Services\Container\DeleteService;
 use App\Services\Container\UpdateService;
+use App\Repositories\Contracts\ContainerRepositoryInterface;
 
 class ContainerService
 {
@@ -38,6 +39,8 @@ class ContainerService
      */
     public function delete(Container $container)
     {
-        return (new DeleteService($container))->delete();
+        return (new DeleteService(
+            $container, app(ContainerRepositoryInterface::class)
+        ))->delete();
     }
 }
