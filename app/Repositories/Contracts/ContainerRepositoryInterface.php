@@ -13,4 +13,13 @@ interface ContainerRepositoryInterface
      * @return mixed
      */
     public function getAllContainersBelongingToUser(User $user);
+
+    /**
+     * Return the container belonging to a given user.
+     *
+     * @param \App\Models\User $user
+     * @param $containerId
+     * @return mixed
+     */
+    public function getContainerBelongingToUser(User $user, $containerId);
 }

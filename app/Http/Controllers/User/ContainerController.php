@@ -51,7 +51,7 @@ class ContainerController extends Controller
     public function index(Request $request)
     {
         // Get all the users containers in array format
-        $containers = $request->user()->containers->toArray();
+        $containers = $this->containerRepository->getAllContainersBelongingToUser($request->user());
         
         return response()->json($containers, 200);
     }
@@ -66,9 +66,15 @@ class ContainerController extends Controller
     public function show(Request $request, $containerId)
     {
         try {
-
             // Get the given container belonging to the user
-            $container = $request->user()->containers()->findOrFail($containerId)->toArray();
+            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+
+            return response()->json([
+                'data' => array_merge($container, [
+                    'entity_status' => 'exists',
+                    'type' => 'Container',
+                ]),
+            ], 200);
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
@@ -80,13 +86,6 @@ class ContainerController extends Controller
             ], 404);
 
         }
-
-        return response()->json([
-            'data' => array_merge($container, [
-                'entity_status' => 'exists',
-                'type' => 'Container',
-            ]),
-        ], 200);
     }
     
     /**

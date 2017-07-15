@@ -36,4 +36,17 @@ class ContainerRepository implements ContainerRepositoryInterface
     {
         return $this->container->where('user_id', $user->id)->get();
     }
+
+    /**
+     * Return the container belonging to a given user.
+     *
+     * @param \App\Models\User $user
+     * @param $containerId
+     * @return mixed
+     */
+    public function getContainerBelongingToUser(User $user, $containerId)
+    {
+        return $this->container->where('user_id', $user->id)
+            ->where('id', $containerId)->firstOrFail();
+    }
 }
