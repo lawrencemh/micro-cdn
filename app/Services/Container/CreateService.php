@@ -7,6 +7,8 @@ use App\Models\Container;
 
 class CreateService
 {
+    use SetNameAttributeTrait;
+
     /**
      * The container instance.
      *
@@ -22,19 +24,6 @@ class CreateService
     public function __construct()
     {
         $this->container = new Container;
-    }
-
-    /**
-     * Set the name of the container.
-     *
-     * @param stirng $name
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->container->name = $name;
-
-        return $this;
     }
 
     /**
