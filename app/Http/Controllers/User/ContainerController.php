@@ -172,7 +172,7 @@ class ContainerController extends Controller
             $container = $request->user()->containers()->findOrFail($containerId);
 
             // Delete the container
-            $container->delete();
+            $this->containerService->delete($container);
 
             return response()->json([
                 'data' => array_merge($container->toArray(), [

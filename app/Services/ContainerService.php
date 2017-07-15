@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Container;
 use App\Services\Container\CreateService;
+use App\Services\Container\DeleteService;
 use App\Services\Container\UpdateService;
 
 class ContainerService
@@ -27,5 +28,16 @@ class ContainerService
     public function update(Container $container)
     {
         return new UpdateService($container);
+    }
+
+    /**
+     * Delete the given container from storage.
+     *
+     * @param \App\Models\Container $container
+     * @return \App\Models\Container
+     */
+    public function delete(Container $container)
+    {
+        return (new DeleteService($container))->delete();
     }
 }
