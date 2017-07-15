@@ -6,6 +6,7 @@ use App\Models\Container;
 
 class UpdateService
 {
+    use SaveTrait;
     use SetNameAttributeTrait;
 
     /**
@@ -26,15 +27,4 @@ class UpdateService
         $this->container = $container;
     }
 
-    /**
-     * Commit and save the container instance to storage.
-     *
-     * @return \App\Models\Container
-     */
-    public function save()
-    {
-        $this->container->save();
-
-        return $this->container;
-    }
 }

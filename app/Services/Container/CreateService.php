@@ -7,6 +7,7 @@ use App\Models\Container;
 
 class CreateService
 {
+    use SaveTrait;
     use SetNameAttributeTrait;
 
     /**
@@ -39,15 +40,4 @@ class CreateService
         return $this;
     }
 
-    /**
-     * Commit and save the container instance to storage.
-     *
-     * @return \App\Models\Container
-     */
-    public function save()
-    {
-        $this->container->save();
-
-        return $this->container;
-    }
 }
