@@ -135,8 +135,9 @@ class ContainerController extends Controller
             ]);
 
             // Update the container
-            $container->name = $request->name;
-            $container->save();
+            $container = $this->containerService->update($container)
+                ->setName($request->name)
+                ->save();
 
             return response()->json([
                 'data' => array_merge($container->toArray(), [
