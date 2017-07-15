@@ -132,7 +132,7 @@ class ContainerController extends Controller
     {
         try {
             // Get the given container belonging to the user
-            $container = $request->user()->containers()->findOrFail($containerId);
+            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
 
             // Validate create container request
             $this->validate($request, [
@@ -179,7 +179,7 @@ class ContainerController extends Controller
     {
         try {
             // Get the given container belonging to the user
-            $container = $request->user()->containers()->findOrFail($containerId);
+            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
 
             // Delete the container
             $this->containerService->delete($container);
