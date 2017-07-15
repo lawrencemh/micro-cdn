@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Services\ResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Services\ContainerService;
@@ -41,6 +40,7 @@ class ContainerController extends Controller
 
         $this->containerRepository = $containerRepository;
         $this->containerService = $containerService;
+        parent::boot();
     }
 
     /**
@@ -54,7 +54,7 @@ class ContainerController extends Controller
         // Get all the users containers in array format
         $containers = $this->containerRepository->getAllContainersBelongingToUser($request->user());
 
-        return (new ResponseService)->json()
+        return $this->responseService->json()
             ->setReturnObject($containers->toArray(), 'Container')
             ->render();
 
@@ -74,7 +74,7 @@ class ContainerController extends Controller
             // Get the given container belonging to the user
             $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
 
-            return (new ResponseService)->json()
+            return $this->responseService->json()
                 ->setReturnObject($container->toArray(), 'Container')
                 ->render();
 
@@ -122,12 +122,10 @@ class ContainerController extends Controller
             ->save();
 
         // Return container attributes & 201 success created response
-        return response()->json([
-            'data' => array_merge($container->toArray(), [
-                'entity_status' => 'created',
-                'type' => 'Container',
-            ]),
-        ], 201);
+        return $this->responseService->json()
+            ->setReturnObject($container->toArray(), 'Container')
+            ->setResponseCode(201)
+            ->render();
     }
 
     /**
@@ -158,12 +156,10 @@ class ContainerController extends Controller
                 ->setName($request->name)
                 ->save();
 
-            return response()->json([
-                'data' => array_merge($container->toArray(), [
-                    'entity_status' => 'exists',
-                    'type' => 'Container',
-                ]),
-            ], 202);
+            return $this->responseService->json()
+                ->setReturnObject($container->toArray(), 'Container')
+                ->setResponseCode(202)
+                ->render();
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
@@ -193,12 +189,10 @@ class ContainerController extends Controller
             // Delete the container
             $this->containerService->delete($container);
 
-            return response()->json([
-                'data' => array_merge($container->toArray(), [
-                    'entity_status' => 'deleted',
-                    'type' => 'Container',
-                ]),
-            ], 202);
+            return $this->responseService->json()
+                ->setReturnObject($container->toArray(), 'Container', 'deleted')
+                ->setResponseCode(202)
+                ->render();
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 

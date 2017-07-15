@@ -35,6 +35,7 @@ class JsonService
             foreach ($array as $item) {
                 $this->response['data'][] = $this->generateEntityArrayObject($item, $type, $entityStatus);
             }
+
         } else {
 
             // single entity
@@ -78,6 +79,19 @@ class JsonService
         }
 
         return $object;
+    }
+
+    /**
+     * Set the HTTP response code.
+     *
+     * @param int $code
+     * @return $this
+     */
+    public function setResponseCode($code = 200)
+    {
+        $this->responseCode = $code;
+
+        return $this;
     }
 
     /**
