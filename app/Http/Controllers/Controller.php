@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\ResponseService;
 use Laravel\Lumen\Routing\Controller as BaseController;
+
 class Controller extends BaseController
 {
     /**
