@@ -82,6 +82,31 @@ class JsonService
     }
 
     /**
+     * Set the errors to be included in the response.
+     *
+     * @param $array
+     * @return $this
+     */
+    public function setErrors($array)
+    {
+        $this->response['errors'] = $array;
+
+        return $this;
+    }
+
+    /**
+     * Return resource not found error response.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resourceNotFound()
+    {
+        $this->setErrors(['Resource not found'], 404);
+
+        return $this->render();
+    }
+
+    /**
      * Set the HTTP response code.
      *
      * @param int $code

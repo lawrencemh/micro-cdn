@@ -88,11 +88,8 @@ class ContainerController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // Resource not found or not owned by authorised user
-            return response()->json([
-                'errors' => [
-                    'Resource not found',
-                ],
-            ], 404);
+            return $this->responseService->json()
+                ->resourceNotFound();
 
         }
     }
@@ -164,11 +161,8 @@ class ContainerController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // Resource not found or not owned by authorised user
-            return response()->json([
-                'errors' => [
-                    'Resource not found',
-                ],
-            ], 404);
+            return $this->responseService->json()
+                ->resourceNotFound();
 
         }
     }
@@ -197,11 +191,8 @@ class ContainerController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // Resource not found or not owned by authorised user
-            return response()->json([
-                'errors' => [
-                    'Resource not found',
-                ],
-            ], 404);
+            return $this->responseService->json()
+                ->resourceNotFound();
 
         }
 
