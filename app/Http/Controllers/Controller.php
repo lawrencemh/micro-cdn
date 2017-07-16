@@ -7,19 +7,12 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     /**
-     * The response service instance.
+     * Return and instantiate the response service.
      *
-     * @var \App\Services\ResponseService
+     * @return \App\Services\ResponseService
      */
-    protected $responseService;
-
-    /**
-     * Controller parent constructor.
-     *
-     * @return void
-     */
-    protected function boot()
+    protected function responseService()
     {
-        $this->responseService = new ResponseService;
+        return new ResponseService();
     }
 }
