@@ -57,8 +57,6 @@ class ContainerController extends Controller
         return $this->responseService->json()
             ->setReturnObject($containers->toArray(), 'Container')
             ->render();
-
-        return response()->json($containers, 200);
     }
 
     /**
@@ -77,13 +75,6 @@ class ContainerController extends Controller
             return $this->responseService->json()
                 ->setReturnObject($container->toArray(), 'Container')
                 ->render();
-
-            return response()->json([
-                'data' => array_merge($container, [
-                    'entity_status' => 'exists',
-                    'type' => 'Container',
-                ]),
-            ], 200);
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
