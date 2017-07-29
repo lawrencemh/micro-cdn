@@ -5,3 +5,4 @@ Homestead.yaml
 .env
 /nbproject
 /nbproject
+/database/database.sqlite
