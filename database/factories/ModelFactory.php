@@ -18,3 +18,9 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'api_token' => $faker->uuid,
     ];
 });
+
+$factory->define(App\Models\Container::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+    ];
+});
