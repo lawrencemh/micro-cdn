@@ -145,7 +145,7 @@ class ContainerController extends Controller
 
             return $this->responseService()->json()
                 ->setReturnObject($container->toArray(), 'Container')
-                ->setResponseCode(202)
+                ->setResponseCode(200)
                 ->render();
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {

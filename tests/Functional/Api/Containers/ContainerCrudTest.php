@@ -20,6 +20,8 @@ class ContainerCrudTest extends ApiTestCase
 
         $this->seeJsonStructure($this->apiResourceCreatedJsonStructure);
 
+        $this->assertResponseStatus(201);
+
         $this->seeInDatabase('containers', [
             'user_id'   => $user->id,
             'name'      => 'testContainer',
@@ -39,6 +41,8 @@ class ContainerCrudTest extends ApiTestCase
             'api_token' => $user->api_token,
         ]);
 
+        $this->assertResponseStatus(200);
+
         $this->seeJsonStructure(['data' => [['id'],['id']]]);
     }
 
@@ -56,6 +60,8 @@ class ContainerCrudTest extends ApiTestCase
         ]);
 
         $this->seeJsonContains(['status' => 'deleted']);
+
+        $this->assertResponseStatus(202);
 
         $this->notSeeInDatabase('containers', [
             'user_id'   => $user->id,
@@ -78,6 +84,8 @@ class ContainerCrudTest extends ApiTestCase
         ]);
 
         $this->seeJsonContains(['name' => 'NewTestName']);
+
+        $this->assertResponseStatus(200);
 
         $this->notSeeInDatabase('containers', [
             'user_id'   => $user->id,
