@@ -3,6 +3,7 @@
 namespace App\Console\Commands\User;
 
 use App\Models\User;
+use Faker\Factory as Faker;
 use Illuminate\Console\Command;
 
 class CreateUser extends Command
@@ -12,7 +13,7 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'user:create-user';
+    protected $signature = 'user:create';
 
     /**
      * The user instance.
@@ -22,13 +23,22 @@ class CreateUser extends Command
     protected $user;
 
     /**
-     * CreateUser constructor.
+     * The faker instance.
      *
-     * @param \App\Models\User $user
+     * @var \Faker\Factory
      */
-    public function __construct(User $user)
+    protected $faker;
+
+    /**
+     * CreateUser constructor.
+     * 
+     * @param \App\Models\User $user
+     * @param \Faker\Factory $faker
+     */
+    public function __construct(User $user, Faker $faker)
     {
-        $this->user = $user;
+        $this->user     = $user;
+        $this->faker    = $faker;
         Parent::__construct();
     }
 
@@ -41,17 +51,7 @@ class CreateUser extends Command
     public function handle()
     {
         $name = $this->ask('What is the user\'s full name?');
-        if (strlen($name) < 1) {
-            $this->error("[$name] is not a valid name!");
-            return 1;
-        }
-
         $email = $this->ask('What is the user\'s email?');
-        if (strlen($email) < 1) {
-            $this->error("[$email] is not a valid name!");
-            return 2;
-        }
-
         $isAdmin = $this->confirm('Should this user be an admin?', false);
 
         $this->info("You are about to create the following user:");
@@ -63,7 +63,7 @@ class CreateUser extends Command
         $this->user->name = $name;
         $this->user->email = $email;
         $this->user->is_admin = $isAdmin;
-        $this->user->api_token = uniqid();
+        $this->user->api_token = Faker;
         $this->user->save();
 
         $this->info("User #{$this->user->id} has been successfully created. Their api token is:");
