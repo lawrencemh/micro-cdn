@@ -36,10 +36,14 @@ class JsonService
                 $this->response['data'][] = $this->generateEntityArrayObject($item, $type, $entityStatus);
             }
 
-        } else {
+        } elseif (count($array) > 0) {
 
             // single entity
             $this->response['data'] = $this->generateEntityArrayObject($array, $type, $entityStatus);
+        } else {
+
+            // array is empty
+            $this->response['data'] = null;
         }
 
         return $this;
@@ -58,8 +62,8 @@ class JsonService
         $object = [];
 
         // set the entity's ID if it exists
-        if (!empty($id = $array['id']) && is_int($id)) {
-            $object['id'] = $id;
+        if (isset($array['id']) && is_int($array['id'])) {
+            $object['id'] = $array['id'];
             unset($array['id']);
         }
 
