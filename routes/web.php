@@ -13,8 +13,8 @@
 
 $app->get('/', ['uses' => 'IndexController@index', 'name' => 'index']);
 
-$app->get('containers', ['uses' => 'User\ContainerController@index', 'name' => 'user.containers.index']);
-$app->get('containers/{container}', ['uses' => 'User\ContainerController@show', 'name' => 'user.containers.show']);
-$app->post('containers', ['uses' => 'User\ContainerController@store', 'name' => 'user.containers.store']);
-$app->patch('containers/{container}', ['uses' => 'User\ContainerController@update', 'name' => 'user.containers.update']);
-$app->delete('containers/{container}', ['uses' => 'User\ContainerController@destroy', 'name' => 'user.containers.destroy']);
+$app->get('containers', ['uses' => 'User\ContainerController@index', 'as' => 'user.containers.index']);
+$app->get('containers/{container}', ['uses' => 'User\ContainerController@show', 'as' => 'user.containers.show']);
+$app->post('containers', ['uses' => 'User\ContainerController@store', 'as' => 'user.containers.store']);
+$app->patch('containers/{container}', ['uses' => 'User\ContainerController@update', 'as' => 'user.containers.update']);
+$app->delete('containers/{container}', ['uses' => 'User\ContainerController@destroy', 'as' => 'user.containers.destroy']);
