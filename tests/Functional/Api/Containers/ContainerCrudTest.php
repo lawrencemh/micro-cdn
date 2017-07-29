@@ -38,6 +38,55 @@ class ContainerCrudTest extends ApiTestCase
         $this->call('get', '/containers', [
             'api_token' => $user->api_token,
         ]);
+
         $this->seeJsonStructure(['data' => [['id'],['id']]]);
+    }
+
+    /**
+     * Test an authorised user can delete one of their containers.
+     */
+    public function testAnAuthorisedUserCanDeleteAContainer()
+    {
+        $user = factory('App\Models\User')->create();
+        $user->containers()->save(factory('App\Models\Container')->make());
+        $container = $user->containers()->first();
+
+        $this->call('delete', "/containers/{$container->id}", [
+            'api_token' => $user->api_token,
+        ]);
+
+        $this->seeJsonContains(['status' => 'deleted']);
+
+        $this->notSeeInDatabase('containers', [
+            'user_id'   => $user->id,
+            'name'      => $container->name,
+        ]);
+    }
+
+    /**
+     * Test an authorised user can update one of their existing containers.
+     */
+    public function testAnAuthorisedUserCanUpdateAContainer()
+    {
+        $user = factory('App\Models\User')->create();
+        $user->containers()->save(factory('App\Models\Container')->make());
+        $container = $user->containers()->first();
+
+        $this->call('patch', "/containers/{$container->id}", [
+            'api_token' => $user->api_token,
+            'name'      => 'NewTestName',
+        ]);
+
+        $this->seeJsonContains(['name' => 'NewTestName']);
+
+        $this->notSeeInDatabase('containers', [
+            'user_id'   => $user->id,
+            'name'      => $container->name,
+        ]);
+
+        $this->seeInDatabase('containers', [
+            'user_id'   => $user->id,
+            'name'      => 'NewTestName',
+        ]);
     }
 }
