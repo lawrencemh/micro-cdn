@@ -31,14 +31,14 @@ class CreateUser extends Command
 
     /**
      * CreateUser constructor.
-     * 
+     *
      * @param \App\Models\User $user
      * @param \Faker\Factory $faker
      */
     public function __construct(User $user, Faker $faker)
     {
         $this->user     = $user;
-        $this->faker    = $faker;
+        $this->faker    = $faker::create();
         Parent::__construct();
     }
 
@@ -63,7 +63,7 @@ class CreateUser extends Command
         $this->user->name = $name;
         $this->user->email = $email;
         $this->user->is_admin = $isAdmin;
-        $this->user->api_token = Faker;
+        $this->user->api_token = $this->faker->uuid;
         $this->user->save();
 
         $this->info("User #{$this->user->id} has been successfully created. Their api token is:");
