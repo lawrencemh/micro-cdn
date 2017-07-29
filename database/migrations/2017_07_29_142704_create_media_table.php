@@ -15,15 +15,15 @@ class CreateMediaTable extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('container_id')->unsigned()->index();
             $table->string('name');
             $table->json('meta_data')->nullable();
             $table->string('path');
             $table->timestamps();
-            
-            // User relation
-            $table->foreign('user_id')->references('id')->on('users')
-                    ->onDelete('cascade');
+
+            // Containers relation
+            $table->foreign('container_id')->references('id')->on('containers')
+                ->onDelete('cascade');
         });
     }
 
