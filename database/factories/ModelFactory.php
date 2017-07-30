@@ -19,6 +19,15 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->defineAs(App\Models\User::class, 'admin', function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'email' => $faker->email,
+        'api_token' => $faker->uuid,
+        'admin' => true,
+    ];
+});
+
 $factory->define(App\Models\Container::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
