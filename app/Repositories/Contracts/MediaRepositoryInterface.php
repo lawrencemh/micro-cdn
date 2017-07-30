@@ -14,4 +14,13 @@ interface MediaRepositoryInterface
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getAllMediaBelongingToContainer(Container $container);
+
+    /**
+     * Get a media item belonging to a given collection.
+     *
+     * @param \App\Models\Container $container
+     * @param int $mediaId
+     * @return \App\Models\Media
+     */
+    public function getMediaItemBelongingToContainer(Container $container, $mediaId);
 }

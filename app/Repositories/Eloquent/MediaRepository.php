@@ -35,4 +35,18 @@ class MediaRepository implements MediaRepositoryInterface
     {
         return $this->media->where('container_id', $container->id)->get();
     }
+
+    /**
+     * Get a media item belonging to a given collection.
+     *
+     * @param \App\Models\Container $container
+     * @param int $mediaId
+     * @return \App\Models\Media
+     */
+    public function getMediaItemBelongingToContainer(Container $container, $mediaId)
+    {
+        return $this->media->where('container_id', $container->id)
+            ->where('id', $mediaId)
+            ->firstOrFail();
+    }
 }

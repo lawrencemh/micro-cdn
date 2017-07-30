@@ -65,9 +65,30 @@ class ContainerMediaController extends Controller
         }
     }
 
+    /**
+     * Return a JSON view for the given media item.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $containerId
+     * @param int $mediaId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show(Request $request, $containerId, $mediaId)
     {
-        // @todo
+        try {
+            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+            $mediaItems = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
+
+            return $this->responseService()->json()
+                ->setReturnObject($mediaItems->toArray(), 'Media')
+                ->render();
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            // Resource not found or not owned by authorised user
+            return $this->responseService()->json()
+                ->resourceNotFound();
+        }
     }
 
     public function store(Request $request, $containerId)

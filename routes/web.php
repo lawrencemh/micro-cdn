@@ -20,3 +20,4 @@ $app->patch('containers/{container}', ['uses' => 'User\ContainerController@updat
 $app->delete('containers/{container}', ['uses' => 'User\ContainerController@destroy', 'as' => 'user.containers.destroy']);
 
 $app->get('containers/{container}/media', ['uses' => 'User\ContainerMediaController@index', 'as' => 'user.containers.media.index']);
+$app->get('containers/{container}/media/{media}', ['uses' => 'User\ContainerMediaController@show', 'as' => 'user.containers.media.show']);
