@@ -76,4 +76,97 @@ class ContainerAuthenticationTest extends ApiTestCase
             'name'      => 'NewTestName',
         ]);
     }
+
+    /**
+     * Test one user cannot view another's containers.
+     */
+    public function testAUserCannotSeeAnotherUsersContainers()
+    {
+        $firstUser = factory('App\Models\User')->create();
+        $firstUser->containers()->save(factory('App\Models\Container')->make());
+
+        $secondUser = factory('App\Models\User')->create();
+
+        $this->call('get', '/containers', [
+            'api_token' => $secondUser->api_token,
+        ]);
+
+        $this->seeJsonContains($this->apiEmptyObjectJsonResponse);
+        $this->assertResponseStatus(200);
+    }
+
+    /**
+     * Test one user cannot view another user's container.
+     */
+    public function testAUserCannotViewAnotherUsersContainer()
+    {
+        $firstUser = factory('App\Models\User')->create();
+        $firstUser->containers()->save(factory('App\Models\Container')->make());
+        $container = $firstUser->containers()->first();
+
+        $secondUser = factory('App\Models\User')->create();
+
+        $this->call('get', "/containers/{$container->id}", [
+            'api_token' => $secondUser->api_token,
+        ]);
+
+        $this->seeJsonContains($this->apiResourceNotFoundJsonResponse);
+        $this->assertResponseStatus(404);
+    }
+
+    /**
+     * Test one user cannot delete another user's container.
+     */
+    public function testAUserCannotDeleteAnotherUsersContainer()
+    {
+        $firstUser = factory('App\Models\User')->create();
+        $firstUser->containers()->save(factory('App\Models\Container')->make());
+        $container = $firstUser->containers()->first();
+
+        $secondUser = factory('App\Models\User')->create();
+
+        $this->call('delete', "/containers/{$container->id}", [
+            'api_token' => $secondUser->api_token,
+        ]);
+
+        $this->seeJsonContains($this->apiResourceNotFoundJsonResponse);
+        $this->assertResponseStatus(404);
+
+        $this->seeInDatabase('containers', [
+            'user_id'   => $firstUser->id,
+            'name'      => $container->name,
+        ]);
+    }
+
+    /**
+     * Test one user cannot update another user's container.
+     */
+    public function testAUserCannotUpdateAnotherUsersContainer()
+    {
+        $firstUser = factory('App\Models\User')->create();
+        $firstUser->containers()->save(factory('App\Models\Container')->make());
+        $container = $firstUser->containers()->first();
+
+        $secondUser = factory('App\Models\User')->create();
+
+        $this->call('patch', "/containers/{$container->id}", [
+            'api_token' => $secondUser->api_token,
+            'name'      => 'NewTestName',
+        ]);
+
+        $this->seeJsonContains($this->apiResourceNotFoundJsonResponse);
+        $this->assertResponseStatus(404);
+
+        $this->seeInDatabase('containers', [
+            'user_id'   => $firstUser->id,
+            'name'      => $container->name,
+        ]);
+
+        $this->NotSeeInDatabase('containers', [
+            'user_id'   => $firstUser->id,
+            'name'      => 'NewTestName',
+        ]);
+    }
+
+
 }
