@@ -17,5 +17,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Repositories\Contracts\ContainerRepositoryInterface',
             'App\Repositories\Eloquent\ContainerRepository');
+
+        // The media repository.
+        $this->app->bind(
+            'App\Repositories\Contracts\MediaRepositoryInterface',
+            'App\Repositories\Eloquent\MediaRepository');
     }
 }

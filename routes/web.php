@@ -18,3 +18,5 @@ $app->get('containers/{container}', ['uses' => 'User\ContainerController@show', 
 $app->post('containers', ['uses' => 'User\ContainerController@store', 'as' => 'user.containers.store']);
 $app->patch('containers/{container}', ['uses' => 'User\ContainerController@update', 'as' => 'user.containers.update']);
 $app->delete('containers/{container}', ['uses' => 'User\ContainerController@destroy', 'as' => 'user.containers.destroy']);
+
+$app->get('containers/{container}/media', ['uses' => 'User\ContainerMediaController@index', 'as' => 'user.containers.media.index']);
