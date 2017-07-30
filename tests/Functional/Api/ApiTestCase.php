@@ -23,4 +23,10 @@ class ApiTestCase extends TestCase
         ],
     ];
 
+    protected $apiUnauthorisedRequestJsonResponse = [
+        'errors' => [
+            'Unauthorized',
+        ],
+    ];
+
 }

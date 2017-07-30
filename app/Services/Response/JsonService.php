@@ -105,7 +105,21 @@ class JsonService
      */
     public function resourceNotFound()
     {
-        $this->setErrors(['Resource not found'], 404);
+        $this->setErrors(['Resource not found']);
+        $this->setResponseCode(404);
+
+        return $this->render();
+    }
+
+    /**
+     * Return unauthorised request response.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unauthorisedRequest()
+    {
+        $this->setErrors(['Unauthorized']);
+        $this->setResponseCode(401);
 
         return $this->render();
     }
