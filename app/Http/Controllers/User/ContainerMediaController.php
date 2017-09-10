@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Services\MediaService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\MediaRepositoryInterface;
@@ -24,20 +25,30 @@ class ContainerMediaController extends Controller
     protected $mediaRepository;
 
     /**
+     * The media service instance.
+     *
+     * @var \App\Services\MediaService
+     */
+    protected $mediaService;
+
+    /**
      * ContainerMediaController constructor.
      *
      * @param \App\Repositories\Contracts\ContainerRepositoryInterface $containerRepository
      * @param \App\Repositories\Contracts\MediaRepositoryInterface     $mediaRepository
+     * @param \App\Services\MediaService                               $mediaService
      */
     public function __construct(
         ContainerRepositoryInterface $containerRepository,
-        MediaRepositoryInterface $mediaRepository
+        MediaRepositoryInterface $mediaRepository,
+        MediaService $mediaService
     )
     {
         $this->middleware('auth');
 
         $this->containerRepository = $containerRepository;
         $this->mediaRepository     = $mediaRepository;
+        $this->mediaService        = $mediaService;
     }
 
     /**
@@ -101,7 +112,18 @@ class ContainerMediaController extends Controller
      */
     public function store(Request $request, $containerId)
     {
-        return json_encode($request);
+        $this->validate($request, [
+            'media_item' => 'file|image',
+        ]);
+
+        if ($request->hasFile('media_item') && $request->file('media_item')->isValid()) {
+            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+
+            // call media creation service.
+            $this->mediaService->create($container, $request->file('media_item'))->store();
+        }
+
+        return response()->json("success");
     }
 
     public function update(Request $request, $containerId, $mediaId)
