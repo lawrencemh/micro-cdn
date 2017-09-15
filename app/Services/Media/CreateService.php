@@ -65,7 +65,7 @@ class CreateService
         $this->container       = $container;
         $this->file            = $file;
         $this->media           = new Media;
-        $this->filepath        = $this->generateValidFilePath();
+        $this->filePath        = $this->generateValidFilePath();
         $this->fileName        = $this->generateValidFileName();
     }
 
@@ -138,17 +138,17 @@ class CreateService
     /**
      * Store the image in storage.
      *
-     * @return $this
+     * @return \App\Models\Media
      */
-    public function store()
+    public function save()
     {
         $this->file->move(
-            storage_path("images/{$this->filePath}"), $this->fileName
+            storage_path("images/$this->filePath"), $this->fileName
         );
 
         $this->media->name = $this->fileName;
         $this->media->container()->associate($this->container);
-        $this->media->path      = "/images{$this->filePath}/{$this->fileName}";
+        $this->media->path      = "/images/$this->filePath/$this->fileName";
         $this->media->meta_data = [
             'has_been_processed' => false,
             'can_be_compressed'  => $this->canBeCompressed(),
@@ -157,6 +157,6 @@ class CreateService
 
         $this->media->save();
 
-        return $this;
+        return $this->media;
     }
 }

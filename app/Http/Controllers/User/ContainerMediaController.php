@@ -108,7 +108,6 @@ class ContainerMediaController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int                      $containerId
      * @return string
-     * @todo implement
      */
     public function store(Request $request, $containerId)
     {
@@ -120,10 +119,13 @@ class ContainerMediaController extends Controller
             $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
 
             // call media creation service.
-            $this->mediaService->create($container, $request->file('media_item'))->store();
+            $mediaItem = $this->mediaService->create($container, $request->file('media_item'))->save();
         }
 
-        return response()->json("success");
+        return $this->responseService()->json()
+            ->setReturnObject($mediaItem->toArray(), 'Media')
+            ->setResponseCode(201)
+            ->render();
     }
 
     public function update(Request $request, $containerId, $mediaId)
