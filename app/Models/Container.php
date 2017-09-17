@@ -32,4 +32,14 @@ class Container extends Model
     {
         return $this->belongsTo('App\Models\User', 'user_id');
     }
+
+    /**
+     * Get all the media items that belong to the container.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function media()
+    {
+        return $this->hasMany('App\Models\Media', 'container_id');
+    }
 }
