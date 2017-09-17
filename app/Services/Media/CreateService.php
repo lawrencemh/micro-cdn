@@ -9,6 +9,8 @@ use App\Repositories\Contracts\MediaRepositoryInterface;
 
 class CreateService
 {
+    use CompressableTrait;
+
     /**
      * The container instance.
      *
@@ -139,19 +141,6 @@ class CreateService
     }
 
     /**
-     * Check whether the uploaded file is an image that can be compressed.
-     *
-     * @return bool
-     */
-    protected function canBeCompressed()
-    {
-        return in_array($this->file->getClientMimeType(), [
-            'image/jpeg',
-            'image/png',
-            ]);
-    }
-
-    /**
      * Store the image in storage.
      *
      * @return \App\Models\Media
@@ -167,7 +156,7 @@ class CreateService
         $this->media->path      = "$this->filePath/$this->fileName";
         $this->media->meta_data = [
             'has_been_processed' => false,
-            'can_be_compressed'  => $this->canBeCompressed(),
+            'can_be_compressed'  => $this->canBeCompressed($this->file),
             'file_mime'          => $this->file->getClientMimeType(),
         ];
 
