@@ -20,7 +20,20 @@ class MediaCrudTest extends ApiTestCase
             'media_item' => $image,
         ], ['Accept' => 'application/json']);
 
-        $this->assertTrue(true);
-        dd($this->response->content());
+        $this->assertResponseStatus(201);
+
+        $this->seeJsonStructure([
+            'data' => [
+                'id', 'attributes'
+            ]]
+        );
+
+        $mediaItem = $container->refresh()->media->first();
+        $filePath  = public_path($mediaItem->path);
+
+        // delete the test image if it was successfully created
+        if ($this->fileExists($filePath)) {
+            unlink($filePath);
+        }
     }
 }
