@@ -72,12 +72,22 @@ class CreateService
     /**
      * Generate a random alpha string for the given length.
      *
-     * @param int $length
+     * @param int  $length
+     * @param bool $includeNumbers
      * @return string
      */
-    protected function generateRandomAlphaString($length = 10)
+    protected function generateRandomAlphaString($length = 10, $includeNumbers = false)
     {
-        return substr(md5(microtime()), rand(0, 26), $length);
+        $string     = '';
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = $includeNumbers ? $characters . '0123456789' : $characters;
+        $maxLen     = strlen($characters) - 1;
+
+        for ($i = 0; $i < $length; $i++) {
+            $string .= $characters[mt_rand(0, $maxLen)];
+        }
+
+        return $string;
     }
 
     /**
@@ -87,7 +97,9 @@ class CreateService
      */
     protected function generateValidFilePath()
     {
-        return $this->generateRandomAlphaString(2);
+        return removeDoubleForwardSlash(
+            "images/" . $this->generateRandomAlphaString(2)
+        );
     }
 
     /**
@@ -97,8 +109,11 @@ class CreateService
      */
     protected function generateValidFileName()
     {
-        $randomString  = $this->generateRandomAlphaString(10);
         $fileExtension = $this->generateValidExtension();
+        do {
+            $randomString = $this->generateRandomAlphaString(10, true);
+            $fullPath     = "{$this->filePath}/{$randomString}{$fileExtension}";
+        } while (file_exists($fullPath));
 
         return $randomString . $fileExtension;
     }
@@ -144,12 +159,12 @@ class CreateService
     public function save()
     {
         $this->file->move(
-            public_path("images/$this->filePath"), $this->fileName
+            public_path($this->filePath), $this->fileName
         );
 
         $this->media->name = $this->fileName;
         $this->media->container()->associate($this->container);
-        $this->media->path      = "/images/$this->filePath/$this->fileName";
+        $this->media->path      = "$this->filePath/$this->fileName";
         $this->media->meta_data = [
             'has_been_processed' => false,
             'can_be_compressed'  => $this->canBeCompressed(),
