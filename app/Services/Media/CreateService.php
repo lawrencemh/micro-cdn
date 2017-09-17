@@ -132,6 +132,7 @@ class CreateService
     {
         return in_array($this->file->getClientMimeType(), [
             'image/jpeg',
+            'image/png',
             ]);
     }
 
@@ -143,7 +144,7 @@ class CreateService
     public function save()
     {
         $this->file->move(
-            storage_path("images/$this->filePath"), $this->fileName
+            public_path("images/$this->filePath"), $this->fileName
         );
 
         $this->media->name = $this->fileName;
