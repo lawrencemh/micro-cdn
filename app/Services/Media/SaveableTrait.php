@@ -16,6 +16,11 @@ trait SaveableTrait
         return $this;
     }
 
+    /**
+     * Save and retrieve the media item.
+     *
+     * @return \App\Models\Media
+     */
     public function saveAndRetrieve()
     {
         $this->save();
