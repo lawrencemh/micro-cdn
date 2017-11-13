@@ -22,3 +22,4 @@ $app->delete('containers/{container}', ['uses' => 'User\ContainerController@dest
 $app->get('containers/{container}/media', ['uses' => 'User\ContainerMediaController@index', 'as' => 'user.containers.media.index']);
 $app->get('containers/{container}/media/{media}', ['uses' => 'User\ContainerMediaController@show', 'as' => 'user.containers.media.show']);
 $app->post('containers/{container}/media', ['uses' => 'User\ContainerMediaController@store', 'as' => 'user.containers.media.store']);
+$app->patch('containers/{container}/media/{media}', ['uses' => 'User\ContainerMediaController@update', 'as' => 'user.containers.media.update']);

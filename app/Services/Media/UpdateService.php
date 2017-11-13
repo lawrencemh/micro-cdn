@@ -50,9 +50,11 @@ class UpdateService
 
                 // if the value is null or empty unset from meta_data, else add/update the value
                 if (is_null($value) || empty($value)) {
-                    unset($this->media->meta_data[$key]);
+                    $metaData = $this->media->meta_data;
+                    unset($metaData[$key]);
+                    $this->media->meta_data = $metaData;
                 } else {
-                    $this->media->meta_data[$key] = $value;
+                    $this->media->meta_data = array_merge($this->media->meta_data, [$key => $value]);
                 }
             }
         }

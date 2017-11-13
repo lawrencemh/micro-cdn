@@ -36,6 +36,12 @@ $factory->define(App\Models\Container::class, function (Faker\Generator $faker) 
 
 $factory->define(App\Models\Media::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
+        'name' => "{$faker->name}.{$faker->fileExtension}",
+        'meta_data' => [
+            'file_mime' => $faker->mimeType,
+            'has_been_processed' => false,
+            'can_be_processed' => true,
+        ],
+        'path' => "{$faker->name}.{$faker->fileExtension}"
     ];
 });

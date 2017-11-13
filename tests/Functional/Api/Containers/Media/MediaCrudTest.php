@@ -36,4 +36,35 @@ class MediaCrudTest extends ApiTestCase
             unlink($filePath);
         }
     }
+
+    public function test_a_user_can_update_an_images_meta_data()
+    {
+        $user = factory('App\Models\User')->create();
+        $user->containers()->save(factory('App\Models\Container')->make());
+
+        $container = $user->containers->first();
+        $media     = factory('App\Models\Media')->make();
+        $container->media()->save($media);
+
+        $this->call('PATCH', "/containers/{$container->id}/media/{$media->id}", [
+            'api_token' => $user->api_token,
+        ], [], [
+            'meta_data' => [
+                'new_key' => true,
+            ],
+        ], ['Accept' => 'application/json']);
+
+        $container = $container->refresh();
+dd($this->response->getContent());
+        $this->seeJsonContains(['meta_data' => ['new_key' => true]]);
+    }
 }
+
+//[
+//    'name' => 'test.jpg',
+//    'meta_data' => [
+//        'file_mime' => 'image/jpeg',
+//        'has_been_processed' => true,
+//        'can_be_processed' => true,
+//    ],
+//]

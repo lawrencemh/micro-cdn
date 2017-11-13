@@ -88,10 +88,10 @@ class ContainerMediaController extends Controller
     {
         try {
             $container  = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
-            $mediaItems = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
+            $mediaItem  = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
 
             return $this->responseService()->json()
-                ->setReturnObject($mediaItems->toArray(), 'Media')
+                ->setReturnObject($mediaItem->toArray(), 'Media')
                 ->render();
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
@@ -130,7 +130,29 @@ class ContainerMediaController extends Controller
 
     public function update(Request $request, $containerId, $mediaId)
     {
-        // @todo
+        try {
+            $container  = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+            $mediaItem = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
+
+            $this->validate($request, [
+                'meta_data' => 'array',
+            ]);
+
+            // Call media update service
+            $this->mediaService->update($mediaItem)->addOrUpdateUserMetaData($request->get('meta_data'))
+                ->saveAndRetrieve();
+
+            return $this->responseService()->json()
+                ->setReturnObject($container->toArray(), 'Media')
+                ->setResponseCode(200)
+                ->render();
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            // Resource not found or not owned by authorised user
+            return $this->responseService()->json()
+                ->resourceNotFound();
+        }
     }
 
     public function destroy(Request $request, $containerId, $mediaId)
