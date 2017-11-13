@@ -33,3 +33,9 @@ $factory->define(App\Models\Container::class, function (Faker\Generator $faker) 
         'name' => $faker->name,
     ];
 });
+
+$factory->define(App\Models\Media::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+    ];
+});

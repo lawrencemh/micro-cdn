@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Media;
 use App\Models\Container;
 use App\Services\Media\CreateService;
-use app\Services\Media\UpdateService;
+use App\Services\Media\UpdateService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repositories\Contracts\MediaRepositoryInterface;
 

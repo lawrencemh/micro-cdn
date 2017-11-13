@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Services\Media;
+namespace App\Services\Media;
 
 use App\Models\Media;
 
