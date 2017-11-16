@@ -23,9 +23,9 @@ class MediaCrudTest extends ApiTestCase
         $this->assertResponseStatus(201);
 
         $this->seeJsonStructure([
-            'data' => [
-                'id', 'attributes'
-            ]]
+                'data' => [
+                    'id', 'attributes'
+                ]]
         );
 
         $mediaItem = $container->refresh()->media->first();
@@ -46,25 +46,17 @@ class MediaCrudTest extends ApiTestCase
         $media     = factory('App\Models\Media')->make();
         $container->media()->save($media);
 
-        $this->call('PATCH', "/containers/{$container->id}/media/{$media->id}", [
+        $this->call('patch', "containers/{$container->id}/media/{$media->id}", [
             'api_token' => $user->api_token,
-        ], [], [
             'meta_data' => [
-                'new_key' => true,
+                'new_key' => true
             ],
-        ], ['Accept' => 'application/json']);
+        ], [], [], ['Accept' => 'application/json']);
 
-        $container = $container->refresh();
-dd($this->response->getContent());
-        $this->seeJsonContains(['meta_data' => ['new_key' => true]]);
+        $this->seeJsonContains(['new_key' => true]);
+
+        $media = $media->refresh();
+        $this->assertArrayHasKey('new_key', $media->meta_data);
+        $this->assertEquals(true, $media->meta_data['new_key']);
     }
 }
-
-//[
-//    'name' => 'test.jpg',
-//    'meta_data' => [
-//        'file_mime' => 'image/jpeg',
-//        'has_been_processed' => true,
-//        'can_be_processed' => true,
-//    ],
-//]

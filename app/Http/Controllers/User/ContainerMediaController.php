@@ -87,8 +87,8 @@ class ContainerMediaController extends Controller
     public function show(Request $request, $containerId, $mediaId)
     {
         try {
-            $container  = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
-            $mediaItem  = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
+            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+            $mediaItem = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
 
             return $this->responseService()->json()
                 ->setReturnObject($mediaItem->toArray(), 'Media')
@@ -128,10 +128,18 @@ class ContainerMediaController extends Controller
             ->render();
     }
 
+    /**
+     * Update the given container's media item in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $containerId
+     * @param int                      $mediaId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $containerId, $mediaId)
     {
         try {
-            $container  = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
             $mediaItem = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
 
             $this->validate($request, [
@@ -143,7 +151,7 @@ class ContainerMediaController extends Controller
                 ->saveAndRetrieve();
 
             return $this->responseService()->json()
-                ->setReturnObject($container->toArray(), 'Media')
+                ->setReturnObject($mediaItem->toArray(), 'Media')
                 ->setResponseCode(200)
                 ->render();
 
@@ -155,6 +163,14 @@ class ContainerMediaController extends Controller
         }
     }
 
+    /**
+     * Delete the given container's media item from storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $containerId
+     * @param int                      $mediaId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(Request $request, $containerId, $mediaId)
     {
         // @todo
