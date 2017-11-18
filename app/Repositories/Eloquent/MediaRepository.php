@@ -49,4 +49,26 @@ class MediaRepository implements MediaRepositoryInterface
             ->where('id', $mediaId)
             ->firstOrFail();
     }
+
+    /**
+     * Save the given media item in storage.
+     *
+     * @param \App\Models\Media $media
+     * @return bool
+     */
+    public function save(Media $media)
+    {
+        return $media->save();
+    }
+
+    /**
+     * Delete the given media item from storage.
+     *
+     * @param \App\Models\Media $media
+     * @return bool
+     */
+    public function delete(Media $media)
+    {
+        return $media->delete();
+    }
 }

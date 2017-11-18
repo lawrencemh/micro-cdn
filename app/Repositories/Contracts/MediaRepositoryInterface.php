@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Models\User;
+use App\Models\Media;
 use App\Models\Container;
 
 interface MediaRepositoryInterface
@@ -19,8 +19,24 @@ interface MediaRepositoryInterface
      * Get a media item belonging to a given collection.
      *
      * @param \App\Models\Container $container
-     * @param int $mediaId
+     * @param int                   $mediaId
      * @return \App\Models\Media
      */
     public function getMediaItemBelongingToContainer(Container $container, $mediaId);
+
+    /**
+     * Save the given media item in storage.
+     *
+     * @param \App\Models\Media $media
+     * @return bool
+     */
+    public function save(Media $media);
+
+    /**
+     * Delete the given media item from storage.
+     *
+     * @param \App\Models\Media $media
+     * @return bool
+     */
+    public function delete(Media $media);
 }
