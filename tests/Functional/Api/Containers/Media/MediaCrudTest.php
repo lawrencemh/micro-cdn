@@ -31,6 +31,8 @@ class MediaCrudTest extends ApiTestCase
         $mediaItem = $container->refresh()->media->first();
         $filePath  = public_path($mediaItem->path);
 
+        $this->assertFileExists($filePath);
+
         // delete the test image if it was successfully created
         if ($this->fileExists($filePath)) {
             unlink($filePath);
@@ -64,17 +66,28 @@ class MediaCrudTest extends ApiTestCase
     {
         $user = factory('App\Models\User')->create();
         $user->containers()->save(factory('App\Models\Container')->make());
-
         $container = $user->containers->first();
-        $media     = factory('App\Models\Media')->make();
-        $container->media()->save($media);
+        $image     = UploadedFile::fake()->image('file.jpg', 600, 600);
 
-        $this->call('delete', "containers/{$container->id}/media/{$media->id}", [
+        $this->call('POST', "/containers/{$container->id}/media", [
+            'api_token' => $user->api_token,
+        ], [], [
+            'media_item' => $image,
+        ], ['Accept' => 'application/json']);
+
+        $mediaItem = $container->refresh()->media->first();
+        $filePath  = public_path($mediaItem->path);
+
+        $this->assertFileExists($filePath);
+
+        $this->call('delete', "containers/{$container->id}/media/{$mediaItem->id}", [
             'api_token' => $user->api_token,
         ], [], [], ['Accept' => 'application/json']);
 
         $this->seeJsonContains(['status' => 'deleted']);
 
         $this->assertResponseStatus(202);
+
+        $this->assertFileNotExists($filePath);
     }
 }
