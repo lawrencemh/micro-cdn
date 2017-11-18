@@ -173,6 +173,23 @@ class ContainerMediaController extends Controller
      */
     public function destroy(Request $request, $containerId, $mediaId)
     {
-        // @todo
+        try {
+            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+            $mediaItem = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
+
+            // Call media update service
+            $this->mediaService->delete($mediaItem);
+
+            return $this->responseService()->json()
+                ->setReturnObject($mediaItem->toArray(), 'Media', 'deleted')
+                ->setResponseCode(202)
+                ->render();
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            // Resource not found or not owned by authorised user
+            return $this->responseService()->json()
+                ->resourceNotFound();
+        }
     }
 }

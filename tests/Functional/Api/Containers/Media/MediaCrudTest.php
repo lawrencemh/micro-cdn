@@ -59,4 +59,22 @@ class MediaCrudTest extends ApiTestCase
         $this->assertArrayHasKey('new_key', $media->meta_data);
         $this->assertEquals(true, $media->meta_data['new_key']);
     }
+
+    public function test_a_user_can_delete_a_media_item()
+    {
+        $user = factory('App\Models\User')->create();
+        $user->containers()->save(factory('App\Models\Container')->make());
+
+        $container = $user->containers->first();
+        $media     = factory('App\Models\Media')->make();
+        $container->media()->save($media);
+
+        $this->call('delete', "containers/{$container->id}/media/{$media->id}", [
+            'api_token' => $user->api_token,
+        ], [], [], ['Accept' => 'application/json']);
+
+        $this->seeJsonContains(['status' => 'deleted']);
+
+        $this->assertResponseStatus(202);
+    }
 }
