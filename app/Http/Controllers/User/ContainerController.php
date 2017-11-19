@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Services\ContainerService;
 use App\Http\Controllers\Controller;
+use App\Jobs\Container\DeleteContainerJob;
 use App\Repositories\Contracts\ContainerRepositoryInterface;
 
 class ContainerController extends Controller
@@ -170,8 +171,9 @@ class ContainerController extends Controller
             // Get the given container belonging to the user
             $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
 
-            // Delete the container
-            $this->containerService->delete($container);
+            // Queue the container deletion job
+            $job = new DeleteContainerJob($container, app(ContainerService::class));
+            dispatch($job);
 
             return $this->responseService()->json()
                 ->setReturnObject($container->toArray(), 'Container', 'deleted')

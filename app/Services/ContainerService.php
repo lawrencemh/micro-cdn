@@ -40,7 +40,7 @@ class ContainerService
     public function delete(Container $container)
     {
         return (new DeleteService(
-            $container, app(ContainerRepositoryInterface::class)
+            $container, app(ContainerRepositoryInterface::class), app(MediaService::class)
         ))->delete();
     }
 }

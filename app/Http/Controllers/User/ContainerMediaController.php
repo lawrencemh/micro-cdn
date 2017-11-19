@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Services\MediaService;
 use Illuminate\Http\Request;
+use App\Services\MediaService;
+use App\Jobs\Media\DeleteMediaJob;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\MediaRepositoryInterface;
 use App\Repositories\Contracts\ContainerRepositoryInterface;
@@ -177,8 +178,9 @@ class ContainerMediaController extends Controller
             $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
             $mediaItem = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
 
-            // Call media update service
-            $this->mediaService->delete($mediaItem);
+            // Queue the job to delete the media item.
+            $job = new DeleteMediaJob($mediaItem, app(MediaService::class));
+            dispatch($job);
 
             return $this->responseService()->json()
                 ->setReturnObject($mediaItem->toArray(), 'Media', 'deleted')
