@@ -21,9 +21,9 @@ class JsonService
     /**
      * Set the array of the object's attributes, or the collection of objects and their attributes.
      *
-     * @param $array
+     * @param             $array
      * @param string|null $type
-     * @param string $entityStatus
+     * @param string      $entityStatus
      * @return $this
      */
     public function setReturnObject($array, $type = null, $entityStatus = 'exists')

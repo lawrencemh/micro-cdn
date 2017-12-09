@@ -24,6 +24,6 @@ if (!function_exists('removeDoubleForwardSlash')) {
      */
     function removeDoubleForwardSlash($string = '')
     {
-        return preg_replace('#/+#','/',$string);
+        return preg_replace('#/+#', '/', $string);
     }
 }

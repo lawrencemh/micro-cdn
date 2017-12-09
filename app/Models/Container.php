@@ -12,7 +12,7 @@ class Container extends Model
      * @var string
      */
     protected $table = 'containers';
-    
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -32,7 +32,7 @@ class Container extends Model
         'name',
         'user_id',
     ];
-    
+
     /**
      * Get the user that the container belongs to.
      *

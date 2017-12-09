@@ -91,7 +91,7 @@ class ContainersController extends Controller
 
         // Create new container
         $container = $this->containerService->create([
-            'name' => $request->name,
+            'name'    => $request->name,
             'user_id' => $request->user()->id,
         ]);
 

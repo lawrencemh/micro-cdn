@@ -22,7 +22,7 @@ class Controller extends BaseController
      * Return the validation api json error response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param array $errors
+     * @param array                    $errors
      * @return \App\Http\Controllers\JsonResponse|mixed
      */
     protected function buildFailedValidationResponse(Request $request, array $errors)

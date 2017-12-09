@@ -23,19 +23,4 @@ interface MediaRepositoryInterface extends BaseRepositoryInterface
      */
     public function getMediaItemBelongingToContainer(Container $container, $mediaId);
 
-//    /**
-//     * Save the given media item in storage.
-//     *
-//     * @param \App\Models\Media $media
-//     * @return bool
-//     */
-//    public function save(Media $media);
-//
-//    /**
-//     * Delete the given media item from storage.
-//     *
-//     * @param \App\Models\Media $media
-//     * @return bool
-//     */
-//    public function delete(Media $media);
 }

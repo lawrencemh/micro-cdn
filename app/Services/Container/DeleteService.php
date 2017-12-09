@@ -43,9 +43,9 @@ class DeleteService
         MediaService $mediaService
     )
     {
-        $this->container           = $container;
-        $this->containerService    = $containerService;
-        $this->mediaService        = $mediaService;
+        $this->container        = $container;
+        $this->containerService = $containerService;
+        $this->mediaService     = $mediaService;
     }
 
     /**
