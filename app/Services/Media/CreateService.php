@@ -2,10 +2,9 @@
 
 namespace App\Services\Media;
 
-use App\Models\Media;
 use App\Models\Container;
+use App\Services\MediaService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use App\Repositories\Contracts\MediaRepositoryInterface;
 
 class CreateService
 {
@@ -40,35 +39,26 @@ class CreateService
     protected $filePath;
 
     /**
-     * The media model instance.
+     * The media service instance.
      *
-     * @var \App\Models\Media
+     * @var \App\Services\MediaService
      */
-    protected $media;
-
-    /**
-     * The media repository instance.
-     *
-     * @var \App\Repositories\Contracts\MediaRepositoryInterface
-     */
-    protected $mediaRepository;
+    protected $mediaService;
 
     /**
      * CreateService constructor.
-     *
-     * @param \App\Repositories\Contracts\MediaRepositoryInterface $mediaRepository
-     * @param \App\Models\Container                                $container
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile  $file
+     * @param \App\Services\MediaService                          $mediaService
+     * @param \App\Models\Container                               $container
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
      * @return void
      */
-    public function __construct(MediaRepositoryInterface $mediaRepository, Container $container, UploadedFile $file)
+    public function __construct(MediaService $mediaService, Container $container, UploadedFile $file)
     {
-        $this->mediaRepository = $mediaRepository;
-        $this->container       = $container;
-        $this->file            = $file;
-        $this->media           = new Media;
-        $this->filePath        = $this->generateValidFilePath();
-        $this->fileName        = $this->generateValidFileName();
+        $this->mediaService = $mediaService;
+        $this->container    = $container;
+        $this->file         = $file;
+        $this->filePath     = $this->generateValidFilePath();
+        $this->fileName     = $this->generateValidFileName();
     }
 
     /**
@@ -151,17 +141,17 @@ class CreateService
             public_path($this->filePath), $this->fileName
         );
 
-        $this->media->name = $this->fileName;
-        $this->media->container()->associate($this->container);
-        $this->media->path      = "$this->filePath/$this->fileName";
-        $this->media->meta_data = [
-            'has_been_processed' => false,
-            'can_be_compressed'  => $this->canBeCompressed($this->file),
-            'file_mime'          => $this->file->getClientMimeType(),
-        ];
+        $mediaItem = $this->mediaService->create([
+            'name'         => $this->fileName,
+            'container_id' => $this->container->id,
+            'path'         => "$this->filePath/$this->fileName",
+            'meta_data'    => [
+                'has_been_processed' => false,
+                'can_be_compressed'  => $this->canBeCompressed($this->file),
+                'file_mime'          => $this->file->getClientMimeType(),
+            ],
+        ]);
 
-        $this->media->save();
-
-        return $this->media;
+        return $mediaItem;
     }
 }
