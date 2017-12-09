@@ -4,26 +4,13 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Services\MediaService;
+use App\Services\ContainerService;
 use App\Jobs\Media\DeleteMediaJob;
 use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\MediaRepositoryInterface;
-use App\Repositories\Contracts\ContainerRepositoryInterface;
 
 class ContainerMediaController extends Controller
 {
-    /**
-     * The container repository instance.
-     *
-     * @var \App\Repositories\Contracts\ContainerRepositoryInterface
-     */
-    protected $containerRepository;
-
-    /**
-     * The media repository instance.
-     *
-     * @var \App\Repositories\Contracts\MediaRepositoryInterface
-     */
-    protected $mediaRepository;
+    protected $containerService;
 
     /**
      * The media service instance.
@@ -35,21 +22,16 @@ class ContainerMediaController extends Controller
     /**
      * ContainerMediaController constructor.
      *
-     * @param \App\Repositories\Contracts\ContainerRepositoryInterface $containerRepository
-     * @param \App\Repositories\Contracts\MediaRepositoryInterface     $mediaRepository
-     * @param \App\Services\MediaService                               $mediaService
+     * @param \App\Services\ContainerService $containerService
+     * @param \App\Services\MediaService     $mediaService
+     * @return void
      */
-    public function __construct(
-        ContainerRepositoryInterface $containerRepository,
-        MediaRepositoryInterface $mediaRepository,
-        MediaService $mediaService
-    )
+    public function __construct(ContainerService $containerService, MediaService $mediaService)
     {
         $this->middleware('auth');
 
-        $this->containerRepository = $containerRepository;
-        $this->mediaRepository     = $mediaRepository;
-        $this->mediaService        = $mediaService;
+        $this->containerService = $containerService;
+        $this->mediaService     = $mediaService;
     }
 
     /**
@@ -62,8 +44,8 @@ class ContainerMediaController extends Controller
     public function index(Request $request, $containerId)
     {
         try {
-            $container  = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
-            $mediaItems = $this->mediaRepository->getAllMediaBelongingToContainer($container);
+            $container  = $this->containerService->getContainerBelongingToUser($request->user(), $containerId);
+            $mediaItems = $this->mediaService->getAllMediaBelongingToContainer($container);
 
             return $this->responseService()->json()
                 ->setReturnObject($mediaItems->toArray(), 'Media')
@@ -88,8 +70,8 @@ class ContainerMediaController extends Controller
     public function show(Request $request, $containerId, $mediaId)
     {
         try {
-            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
-            $mediaItem = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
+            $container = $this->containerService->getContainerBelongingToUser($request->user(), $containerId);
+            $mediaItem = $this->mediaService->getMediaItemBelongingToContainer($container, $mediaId);
 
             return $this->responseService()->json()
                 ->setReturnObject($mediaItem->toArray(), 'Media')
@@ -117,10 +99,10 @@ class ContainerMediaController extends Controller
         ]);
 
         if ($request->hasFile('media_item') && $request->file('media_item')->isValid()) {
-            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+            $container = $this->containerService->getContainerBelongingToUser($request->user(), $containerId);
 
             // call media creation service.
-            $mediaItem = $this->mediaService->create($container, $request->file('media_item'))->save();
+            $mediaItem = $this->mediaService->createMediaItem($container, $request->file('media_item'))->save();
         }
 
         return $this->responseService()->json()
@@ -140,8 +122,8 @@ class ContainerMediaController extends Controller
     public function update(Request $request, $containerId, $mediaId)
     {
         try {
-            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
-            $mediaItem = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
+            $container = $this->containerService->getContainerBelongingToUser($request->user(), $containerId);
+            $mediaItem = $this->mediaService->getMediaItemBelongingToContainer($container, $mediaId);
 
             $this->validate($request, [
                 'meta_data' => 'array',
@@ -175,8 +157,8 @@ class ContainerMediaController extends Controller
     public function destroy(Request $request, $containerId, $mediaId)
     {
         try {
-            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
-            $mediaItem = $this->mediaRepository->getMediaItemBelongingToContainer($container, $mediaId);
+            $container = $this->containerService->getContainerBelongingToUser($request->user(), $containerId);
+            $mediaItem = $this->mediaService->getMediaItemBelongingToContainer($container, $mediaId);
 
             // Queue the job to delete the media item.
             $job = new DeleteMediaJob($mediaItem, app(MediaService::class));
