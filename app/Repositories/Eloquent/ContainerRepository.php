@@ -6,14 +6,14 @@ use App\Models\User;
 use App\Models\Container;
 use App\Repositories\Contracts\ContainerRepositoryInterface;
 
-class ContainerRepository implements ContainerRepositoryInterface
+class ContainerRepository extends AbstractBaseRepository implements ContainerRepositoryInterface
 {
     /**
-     * The container instance.
+     * The eloquent model instance.
      *
-     * @var \App\Models\Container
+     * @var \Illuminate\Database\Eloquent\Model
      */
-    protected $container;
+    protected $model;
 
     /**
      * ContainerRepository constructor.
@@ -23,7 +23,7 @@ class ContainerRepository implements ContainerRepositoryInterface
      */
     public function __construct(Container $container)
     {
-        $this->container = $container;
+        $this->model = $container;
     }
 
     /**
@@ -34,41 +34,18 @@ class ContainerRepository implements ContainerRepositoryInterface
      */
     public function getAllContainersBelongingToUser(User $user)
     {
-        return $this->container->where('user_id', $user->id)->get();
+        return $this->where('user_id', '=', $user->id)->get();
     }
 
     /**
      * Return the container belonging to a given user.
      *
      * @param \App\Models\User $user
-     * @param $containerId
+     * @param                  $containerId
      * @return mixed
      */
     public function getContainerBelongingToUser(User $user, $containerId)
     {
-        return $this->container->where('user_id', $user->id)
-            ->where('id', $containerId)->firstOrFail();
-    }
-
-    /**
-     * Save the given container in storage.
-     *
-     * @param \App\Models\Container $container
-     * @return bool
-     */
-    public function save(Container $container)
-    {
-        return $container->save();
-    }
-
-    /**
-     * Delete the given container from storage.
-     *
-     * @param \App\Models\Container $container
-     * @return bool
-     */
-    public function delete(Container $container)
-    {
-        return $container->delete();
+        return $this->where('user_id', '=', $user->id)->where('id', $containerId)->first();
     }
 }

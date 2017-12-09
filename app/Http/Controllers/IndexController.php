@@ -5,15 +5,10 @@ namespace App\Http\Controllers;
 class IndexController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Return the index page.
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function __construct()
-    {
-        //$this->middleware('auth');
-    }
-
     public function index()
     {
         return response()->json(['status' => true], 200);

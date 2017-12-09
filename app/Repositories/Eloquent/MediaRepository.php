@@ -6,14 +6,14 @@ use App\Models\Media;
 use App\Models\Container;
 use App\Repositories\Contracts\MediaRepositoryInterface;
 
-class MediaRepository implements MediaRepositoryInterface
+class MediaRepository extends AbstractBaseRepository implements MediaRepositoryInterface
 {
     /**
-     * The media instance.
+     * The eloquent model instance.
      *
-     * @var \App\Models\Media
+     * @var \Illuminate\Database\Eloquent\Model
      */
-    protected $media;
+    protected $model;
 
     /**
      * MediaRepository constructor.
@@ -22,7 +22,7 @@ class MediaRepository implements MediaRepositoryInterface
      */
     public function __construct(Media $media)
     {
-        $this->media = $media;
+        $this->model = $media;
     }
 
     /**
@@ -33,42 +33,19 @@ class MediaRepository implements MediaRepositoryInterface
      */
     public function getAllMediaBelongingToContainer(Container $container)
     {
-        return $this->media->where('container_id', $container->id)->get();
+        return $this->where('container_id', '=', $container->id)->get();
     }
 
     /**
      * Get a media item belonging to a given collection.
      *
      * @param \App\Models\Container $container
-     * @param int $mediaId
-     * @return \App\Models\Media
+     * @param int                   $mediaId
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function getMediaItemBelongingToContainer(Container $container, $mediaId)
     {
-        return $this->media->where('container_id', $container->id)
-            ->where('id', $mediaId)
-            ->firstOrFail();
+        return $this->where('container_id', '=', $container->id)->where('id', $mediaId)->first();
     }
 
-    /**
-     * Save the given media item in storage.
-     *
-     * @param \App\Models\Media $media
-     * @return bool
-     */
-    public function save(Media $media)
-    {
-        return $media->save();
-    }
-
-    /**
-     * Delete the given media item from storage.
-     *
-     * @param \App\Models\Media $media
-     * @return bool
-     */
-    public function delete(Media $media)
-    {
-        return $media->delete();
-    }
 }

@@ -2,45 +2,57 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Models\Container;
-use App\Services\Container\CreateService;
 use App\Services\Container\DeleteService;
-use App\Services\Container\UpdateService;
 use App\Repositories\Contracts\ContainerRepositoryInterface;
 
-class ContainerService
+class ContainerService extends AbstractBaseService
 {
     /**
-     * Create a new container.
+     * ContainerService constructor.
      *
-     * @return \App\Services\Container\CreateService
+     * @param \App\Repositories\Contracts\ContainerRepositoryInterface $containerRepository
+     * @return void
      */
-    public function create()
+    function __construct(ContainerRepositoryInterface $containerRepository)
     {
-        return new CreateService(app(ContainerRepositoryInterface::class));
+        $this->repository = $containerRepository ?? app(ContainerRepositoryInterface::class);
     }
 
     /**
-     * Update an existing container.
+     * Return all containers that belong to the given user.
      *
-     * @param \App\Models\Container $container
-     * @return \App\Services\Container\UpdateService
+     * @param \App\Models\User $user
+     * @return mixed
      */
-    public function update(Container $container)
+    public function getAllContainersBelongingToUser(User $user)
     {
-        return new UpdateService($container, app(ContainerRepositoryInterface::class));
+        return $this->repository->getAllContainersBelongingToUser($user);
+    }
+
+    /**
+     * Return the container belonging to a given user.
+     *
+     * @param \App\Models\User $user
+     * @param                  $containerId
+     * @return mixed
+     */
+    public function getContainerBelongingToUser(User $user, $containerId)
+    {
+        return $this->repository->getContainerBelongingToUser($user, $containerId);
     }
 
     /**
      * Delete the given container from storage.
      *
-     * @param \App\Models\Container $container
+     * @param \App\Models\Container $containerß
      * @return \App\Models\Container
      */
-    public function delete(Container $container)
+    public function deleteContainer(Container $container)
     {
         return (new DeleteService(
-            $container, app(ContainerRepositoryInterface::class), app(MediaService::class)
+            $container, app(ContainerService::class), app(MediaService::class)
         ))->delete();
     }
 }

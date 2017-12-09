@@ -4,7 +4,7 @@ namespace App\Services\Container;
 
 use App\Models\Container;
 use App\Services\MediaService;
-use App\Repositories\Contracts\ContainerRepositoryInterface;
+use App\Services\ContainerService;
 
 class DeleteService
 {
@@ -16,11 +16,11 @@ class DeleteService
     protected $container;
 
     /**
-     * The container repository instance.
+     * The container service instance.
      *
-     * @var \App\Repositories\Contracts\ContainerRepositoryInterface
+     * @var \App\Services\ContainerService
      */
-    protected $containerRepository;
+    protected $containerService;
 
     /**
      * The media service instance.
@@ -31,20 +31,21 @@ class DeleteService
 
     /**
      * DeleteService constructor.
-     * a*
-     * @param \App\Models\Container                                    $container
-     * @param \App\Repositories\Contracts\ContainerRepositoryInterface $containerRepository
+     *
+     * @param \App\Models\Container          $container
+     * @param \App\Services\ContainerService $containerService
+     * @param \App\Services\MediaService     $mediaService
      * @return void
      */
     public function __construct(
         Container $container,
-        ContainerRepositoryInterface $containerRepository,
+        ContainerService $containerService,
         MediaService $mediaService
     )
     {
-        $this->container           = $container;
-        $this->containerRepository = $containerRepository;
-        $this->mediaService        = $mediaService;
+        $this->container        = $container;
+        $this->containerService = $containerService;
+        $this->mediaService     = $mediaService;
     }
 
     /**
@@ -58,7 +59,7 @@ class DeleteService
             $this->mediaService->delete($mediaItem);
         }
 
-        $this->containerRepository->delete($this->container);
+        $this->containerService->destroy($this->container->id);
 
         return $this->container;
     }

@@ -3,7 +3,7 @@
 namespace App\Services\Media;
 
 use App\Models\Media;
-use App\Repositories\Contracts\MediaRepositoryInterface;
+use App\Services\MediaService;
 use App\Exceptions\Services\Media\FailedToRemoveFromStorageException;
 
 class DeleteService
@@ -16,23 +16,23 @@ class DeleteService
     protected $media;
 
     /**
-     * The media repository instance.
+     * The media service instance.
      *
-     * @var \App\Repositories\Contracts\MediaRepositoryInterface
+     * @var \App\Services\MediaService
      */
-    protected $mediaRepository;
+    protected $mediaService;
 
     /**
      * DeleteService constructor.
      *
-     * @param \App\Models\Media                                    $media
-     * @param \App\Repositories\Contracts\MediaRepositoryInterface $mediaRepository
+     * @param \App\Models\Media          $media
+     * @param \App\Services\MediaService $mediaService
      * @return void
      */
-    function __construct(Media $media, MediaRepositoryInterface $mediaRepository)
+    function __construct(Media $media, MediaService $mediaService)
     {
-        $this->media           = $media;
-        $this->mediaRepository = $mediaRepository;
+        $this->media        = $media;
+        $this->mediaService = $mediaService;
     }
 
     /**
@@ -47,7 +47,7 @@ class DeleteService
         try {
             // Start DB transaction to allow a rollback in the instance the file fails to remove from storage.
             app('db')->beginTransaction();
-            $this->mediaRepository->delete($this->media);
+            $this->mediaService->destroy($this->media->id);
 
             // Check the file exists
             if (file_exists($this->getFullPath()) === false) {

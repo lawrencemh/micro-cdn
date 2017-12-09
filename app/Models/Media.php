@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model
 {
-     /**
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -14,7 +14,19 @@ class Media extends Model
     protected $casts = [
         'meta_data' => 'array',
     ];
-    
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'container_id',
+        'name',
+        'meta_data',
+        'path',
+    ];
+
     /**
      * Get the container that the media item belongs to.
      *

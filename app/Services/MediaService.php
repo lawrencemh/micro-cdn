@@ -10,8 +10,26 @@ use App\Services\Media\UpdateService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repositories\Contracts\MediaRepositoryInterface;
 
-class MediaService
+class MediaService extends AbstractBaseService
 {
+    /**
+     * The repository instance.
+     *
+     * @var \App\Repositories\Contracts\BaseRepositoryInterface
+     */
+    protected $repository;
+
+    /**
+     * MediaService constructor.
+     *
+     * @param \App\Repositories\Contracts\MediaRepositoryInterface|null $mediaRepository
+     * @return void
+     */
+    function __construct(MediaRepositoryInterface $mediaRepository = null)
+    {
+        $this->repository = $mediaRepository ?? app(MediaRepositoryInterface::class);
+    }
+
     /**
      * Create a new media item for a given container and file.
      *
@@ -19,9 +37,9 @@ class MediaService
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
      * @return \App\Services\Media\CreateService
      */
-    public function create(Container $container, UploadedFile $file)
+    public function createMediaItem(Container $container, UploadedFile $file)
     {
-        return new CreateService(app(MediaRepositoryInterface::class), $container, $file);
+        return new CreateService(app(MediaService::class), $container, $file);
     }
 
     /**
@@ -44,6 +62,29 @@ class MediaService
      */
     public function delete(Media $media)
     {
-        return (new DeleteService($media, app(MediaRepositoryInterface::class)))->delete();
+        return (new DeleteService($media, app(MediaService::class)))->delete();
+    }
+
+    /**
+     * Get all media items belonging to the given container.
+     *
+     * @param \App\Models\Container $container
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllMediaBelongingToContainer(Container $container)
+    {
+        return $this->repository->getAllMediaBelongingToContainer($container);
+    }
+
+    /**
+     * Get a media item belonging to a given collection.
+     *
+     * @param \App\Models\Container $container
+     * @param int                   $mediaId
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function getMediaItemBelongingToContainer(Container $container, $mediaId)
+    {
+        return $this->repository->getMediaItemBelongingToContainer($container, $mediaId);
     }
 }

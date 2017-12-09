@@ -12,7 +12,7 @@ class Container extends Model
      * @var string
      */
     protected $table = 'containers';
-    
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -22,7 +22,17 @@ class Container extends Model
         'user_id',
         'user',
     ];
-    
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'user_id',
+    ];
+
     /**
      * Get the user that the container belongs to.
      *
