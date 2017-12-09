@@ -5,6 +5,13 @@ namespace App\Repositories\Contracts;
 interface BaseRepositoryInterface
 {
     /**
+     * Retrieve all entities from for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function all();
+
+    /**
      * Create a new entity for the given model.
      *
      * @param array $input
