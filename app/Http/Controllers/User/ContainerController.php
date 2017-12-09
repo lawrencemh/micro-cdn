@@ -7,17 +7,9 @@ use Illuminate\Validation\Rule;
 use App\Services\ContainerService;
 use App\Http\Controllers\Controller;
 use App\Jobs\Container\DeleteContainerJob;
-use App\Repositories\Contracts\ContainerRepositoryInterface;
 
 class ContainerController extends Controller
 {
-    /**
-     * The container repository instance.
-     *
-     * @var \App\Repositories\Contracts\ContainerRepositoryInterface
-     */
-    protected $containerRepository;
-
     /**
      * The container service instance.
      *
@@ -28,31 +20,25 @@ class ContainerController extends Controller
     /**
      * ContainerController constructor.
      *
-     * @param \App\Repositories\Contracts\ContainerRepositoryInterface $containerRepository
      * @param \App\Services\ContainerService $containerService
      * @return void
      */
-    public function __construct(
-        ContainerRepositoryInterface $containerRepository,
-        ContainerService $containerService
-    )
+    public function __construct(ContainerService $containerService)
     {
         $this->middleware('auth');
-
-        $this->containerRepository = $containerRepository;
         $this->containerService = $containerService;
     }
 
     /**
      * Return a JSON list of all the authorised user's containers.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
         // Get all the users containers in array format
-        $containers = $this->containerRepository->getAllContainersBelongingToUser($request->user());
+        $containers = $this->containerService->getAllContainersBelongingToUser($request->user());
 
         return $this->responseService()->json()
             ->setReturnObject($containers->toArray(), 'Container')
@@ -63,14 +49,14 @@ class ContainerController extends Controller
      * Return a JSON list of the given container's attributes.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $containerId
+     * @param int                      $containerId
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Request $request, $containerId)
     {
         try {
             // Get the given container belonging to the user
-            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+            $container = $this->containerService->getContainerBelongingToUser($request->user(), $containerId);
 
             return $this->responseService()->json()
                 ->setReturnObject($container->toArray(), 'Container')
@@ -84,10 +70,10 @@ class ContainerController extends Controller
 
         }
     }
-    
+
     /**
      * Store a new Container for the authorised user in the database.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -102,12 +88,12 @@ class ContainerController extends Controller
                 }),
             ],
         ]);
-        
+
         // Create new container
-        $container = $this->containerService->create()
-            ->setName($request->name)
-            ->setOwner($request->user())
-            ->save();
+        $container = $this->containerService->create([
+            'name' => $request->name,
+            'user_id' => $request->user()->id,
+        ]);
 
         // Return container attributes & 201 success created response
         return $this->responseService()->json()
@@ -120,14 +106,14 @@ class ContainerController extends Controller
      * Update the given user's container in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $containerId
+     * @param int                      $containerId
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $containerId)
     {
         try {
             // Get the given container belonging to the user
-            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+            $container = $this->containerService->getContainerBelongingToUser($request->user(), $containerId);
 
             // Validate create container request
             $this->validate($request, [
@@ -140,9 +126,9 @@ class ContainerController extends Controller
             ]);
 
             // Update the container
-            $container = $this->containerService->update($container)
-                ->setName($request->name)
-                ->save();
+            $container = $this->containerService->updateById($containerId, [
+                'name' => $request->name,
+            ]);
 
             return $this->responseService()->json()
                 ->setReturnObject($container->toArray(), 'Container')
@@ -162,14 +148,14 @@ class ContainerController extends Controller
      * Delete the given user's container from storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $containerId
+     * @param int                      $containerId
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request, $containerId)
     {
         try {
             // Get the given container belonging to the user
-            $container = $this->containerRepository->getContainerBelongingToUser($request->user(), $containerId);
+            $container = $this->containerService->getContainerBelongingToUser($request->user(), $containerId);
 
             // Queue the container deletion job
             $job = new DeleteContainerJob($container, app(ContainerService::class));

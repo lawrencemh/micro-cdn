@@ -22,6 +22,16 @@ class Container extends Model
         'user_id',
         'user',
     ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'user_id',
+    ];
     
     /**
      * Get the user that the container belongs to.

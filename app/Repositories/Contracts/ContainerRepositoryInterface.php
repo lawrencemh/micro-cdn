@@ -3,9 +3,8 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\User;
-use App\Models\Container;
 
-interface ContainerRepositoryInterface
+interface ContainerRepositoryInterface extends BaseRepositoryInterface
 {
     /**
      * Return all containers that belong to the given user.
@@ -24,19 +23,4 @@ interface ContainerRepositoryInterface
      */
     public function getContainerBelongingToUser(User $user, $containerId);
 
-    /**
-     * Save the given container in storage.
-     *
-     * @param \App\Models\Container $container
-     * @return bool
-     */
-    public function save(Container $container);
-
-    /**
-     * Delete the given container from storage.
-     *
-     * @param \App\Models\Container $container
-     * @return bool
-     */
-    public function delete(Container $container);
 }

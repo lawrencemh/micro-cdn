@@ -40,6 +40,6 @@ class DeleteContainerJob extends Job
      */
     public function handle()
     {
-        $this->containerService->delete($this->container);
+        $this->containerService->deleteContainer($this->container);
     }
 }
