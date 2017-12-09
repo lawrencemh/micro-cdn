@@ -8,7 +8,7 @@ use App\Services\ContainerService;
 use App\Http\Controllers\Controller;
 use App\Jobs\Container\DeleteContainerJob;
 
-class ContainerController extends Controller
+class ContainersController extends Controller
 {
     /**
      * The container service instance.
