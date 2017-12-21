@@ -23,6 +23,8 @@ class CreateCompressedCopiesTable extends Migration
 
             $table->foreign('media_id')->references('id')->on('media')
                 ->onDelete('cascade');
+
+            $table->unique(['media_id', 'type']);
         });
     }
 
