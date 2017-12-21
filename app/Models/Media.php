@@ -34,7 +34,47 @@ class Media extends Model
      */
     public function container()
     {
-        return $this->belongsTo('App\Models\Container', 'container_id');
+        return $this->belongsTo(\App\Models\Container::class, 'container_id');
+    }
+
+    /**
+     * Return the compressed copies the media item has.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function compressedCopies()
+    {
+        return $this->hasMany(\App\Models\CompressedCopy::class);
+    }
+
+    /**
+     * Get the small version of the image.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function small()
+    {
+        return $this->hasOne(\App\Models\CompressedCopy::class)->where('type', 'sm');
+    }
+
+    /**
+     * Get the small version of the image.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function medium()
+    {
+        return $this->hasOne(\App\Models\CompressedCopy::class)->where('type', 'm');
+    }
+
+    /**
+     * Get the small version of the image.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function large()
+    {
+        return $this->hasOne(\App\Models\CompressedCopy::class)->where('type', 'lg');
     }
 
     /**
