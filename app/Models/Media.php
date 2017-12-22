@@ -58,7 +58,7 @@ class Media extends Model
     }
 
     /**
-     * Get the small version of the image.
+     * Get the medium version of the image.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -68,7 +68,7 @@ class Media extends Model
     }
 
     /**
-     * Get the small version of the image.
+     * Get the large version of the image.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
