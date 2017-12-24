@@ -146,9 +146,9 @@ class CreateService
             'container_id' => $this->container->id,
             'path'         => "$this->filePath/$this->fileName",
             'meta_data'    => [
-                'has_been_processed' => false,
-                'can_be_compressed'  => $this->canBeCompressed($this->file),
-                'file_mime'          => $this->file->getClientMimeType(),
+                'can_be_compressed'   => $this->canBeCompressed($this->file),
+                'has_been_compressed' => false,
+                'file_mime'           => $this->file->getClientMimeType(),
             ],
         ]);
 

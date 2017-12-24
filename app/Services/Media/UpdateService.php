@@ -16,7 +16,7 @@ class UpdateService
     protected $forbiddenUserMetaKeys = [
         'file_mime',
         'can_be_compressed',
-        'has_been_processed',
+        'has_been_compressed',
     ];
 
     /**
