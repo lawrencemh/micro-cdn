@@ -152,6 +152,12 @@ class CreateService
             ],
         ]);
 
+        // Schedule job to compress the media file
+        if ($this->canBeCompressed($this->file)) {
+            $job = (new \App\Jobs\Media\CompressMediaJob($mediaItem));
+            dispatch($job);
+        }
+
         return $mediaItem;
     }
 }
