@@ -63,7 +63,8 @@ class ImageOptimiserService
         $this->imageResizer->save($this->media->getFullLocalPath());
 
         // Update media's meta_data
-        $this->mediaService->update($this->media)->addOrUpdateUserMetaData(['has_been_compressed' => true])->save();
+        $this->mediaService->update($this->media)
+            ->addOrUpdateUserMetaData(['has_been_compressed' => true], true)->save();
 
         return $this;
     }
