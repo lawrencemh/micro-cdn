@@ -154,7 +154,12 @@ class CreateService
 
         // Schedule job to compress the media file
         if ($this->canBeCompressed($this->file)) {
+            // Compress the original image
             $job = (new \App\Jobs\Media\CompressMediaJob($mediaItem));
+            dispatch($job);
+
+            // Create compressed versions of the image
+            $job = (new \App\Jobs\Media\CreateOptimisedCopiesMediaJob($mediaItem));
             dispatch($job);
         }
 
