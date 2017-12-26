@@ -38,6 +38,11 @@ class MediaCrudTest extends ApiTestCase
 
         $this->assertFileExists($filePath);
 
+        // Check compressed copies were created for the media item;
+        $this->assertFileExists($mediaItem->small ? $mediaItem->small->getFullLocalPath() : null);
+        $this->assertFileExists($mediaItem->medium ? $mediaItem->medium->getFullLocalPath() : null);
+        $this->assertFileExists($mediaItem->large ? $mediaItem->large->getFullLocalPath() : null);
+
         // delete the test image if it was successfully created
         if ($this->fileExists($mediaItem->getFullLocalPath())) {
             unlink($mediaItem->getFullLocalPath());
