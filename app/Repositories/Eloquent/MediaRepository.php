@@ -47,7 +47,7 @@ class MediaRepository extends AbstractBaseRepository implements MediaRepositoryI
     public function getMediaItemBelongingToContainer(Container $container, $mediaId)
     {
         return $this->where('container_id', '=', $container->id)->where('id', $mediaId)
-            ->getQueryInstance()->withCompressedCopies()->first();
+            ->getQueryInstance()->withCompressedCopies()->firstOrFail();
     }
 
 }
