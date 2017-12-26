@@ -14,12 +14,13 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\User\CreateUser::class,
+        \App\Console\Commands\Media\CreateCompressedCopies::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
