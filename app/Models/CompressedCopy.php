@@ -34,4 +34,24 @@ class CompressedCopy extends Model
     {
         return $this->belongsTo(\App\Models\Media::class);
     }
+
+    /**
+     * Return the full public url to the media asset.
+     *
+     * @return string
+     */
+    public function getFullPublicPath()
+    {
+        return url($this->path);
+    }
+
+    /**
+     * Return the full local path to the media asset.
+     *
+     * @return string
+     */
+    public function getFullLocalPath()
+    {
+        return public_path($this->path);
+    }
 }
