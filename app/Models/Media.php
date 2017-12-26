@@ -47,7 +47,7 @@ class Media extends Model
         return $this->hasMany(\App\Models\CompressedCopy::class);
     }
 
-    /**
+    /**\
      * Get the small version of the image.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -95,5 +95,15 @@ class Media extends Model
     public function getFullLocalPath()
     {
         return public_path($this->path);
+    }
+
+    /**
+     * Returns true if the media item can be compressed.
+     *
+     * @return bool
+     */
+    public function canBeCompressed()
+    {
+        return isset($this->meta_data['can_be_compressed']) ? (bool) $this->meta_data['can_be_compressed'] : false;
     }
 }
