@@ -7,10 +7,10 @@ class IndexController extends Controller
     /**
      * Return the index page.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\View\View
      */
     public function index()
     {
-        return response()->json(['status' => true], 200);
+        return view('index');
     }
 }

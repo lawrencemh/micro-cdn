@@ -62,7 +62,8 @@ class MediaService extends AbstractBaseService
      */
     public function delete(Media $media)
     {
-        return (new DeleteService($media, app(MediaService::class)))->delete();
+        return (new DeleteService(app(CompressedCopyService::class), $media, app(MediaService::class)))
+            ->delete();
     }
 
     /**

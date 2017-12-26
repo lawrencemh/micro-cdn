@@ -146,11 +146,22 @@ class CreateService
             'container_id' => $this->container->id,
             'path'         => "$this->filePath/$this->fileName",
             'meta_data'    => [
-                'has_been_processed' => false,
-                'can_be_compressed'  => $this->canBeCompressed($this->file),
-                'file_mime'          => $this->file->getClientMimeType(),
+                'can_be_compressed'   => $this->canBeCompressed($this->file),
+                'has_been_compressed' => false,
+                'file_mime'           => $this->file->getClientMimeType(),
             ],
         ]);
+
+        // Schedule job to compress the media file
+        if ($this->canBeCompressed($this->file)) {
+            // Compress the original image
+            $job = (new \App\Jobs\Media\CompressMediaJob($mediaItem));
+            dispatch($job);
+
+            // Create compressed versions of the image
+            $job = (new \App\Jobs\Media\CreateOptimisedCopiesMediaJob($mediaItem));
+            dispatch($job);
+        }
 
         return $mediaItem;
     }

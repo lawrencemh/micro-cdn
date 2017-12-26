@@ -4,5 +4,7 @@ Homestead.json
 Homestead.yaml
 .env
 /nbproject
-/nbproject
 /database/database.sqlite
+/public/images
+/node_modules
+.DS_Store

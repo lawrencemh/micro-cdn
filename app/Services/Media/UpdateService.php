@@ -16,7 +16,7 @@ class UpdateService
     protected $forbiddenUserMetaKeys = [
         'file_mime',
         'can_be_compressed',
-        'has_been_processed',
+        'has_been_compressed',
     ];
 
     /**
@@ -41,12 +41,13 @@ class UpdateService
      * Add or update existing user meta_data for the given media item.
      *
      * @param array $array
+     * @param bool  $ignoreProtectedKeyCheck
      * @return $this
      */
-    public function addOrUpdateUserMetaData($array = [])
+    public function addOrUpdateUserMetaData($array = [], $ignoreProtectedKeyCheck = false)
     {
         foreach ($array as $key => $value) {
-            if (!in_array($key, $this->forbiddenUserMetaKeys)) {
+            if (!in_array($key, $this->forbiddenUserMetaKeys) || $ignoreProtectedKeyCheck) {
 
                 // if the value is null or empty unset from meta_data, else add/update the value
                 if (is_null($value) || empty($value)) {

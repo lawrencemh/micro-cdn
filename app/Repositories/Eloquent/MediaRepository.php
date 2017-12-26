@@ -33,7 +33,8 @@ class MediaRepository extends AbstractBaseRepository implements MediaRepositoryI
      */
     public function getAllMediaBelongingToContainer(Container $container)
     {
-        return $this->where('container_id', '=', $container->id)->get();
+        return $this->where('container_id', '=', $container->id)->getQueryInstance()
+            ->withCompressedCopies()->get();
     }
 
     /**
@@ -45,7 +46,8 @@ class MediaRepository extends AbstractBaseRepository implements MediaRepositoryI
      */
     public function getMediaItemBelongingToContainer(Container $container, $mediaId)
     {
-        return $this->where('container_id', '=', $container->id)->where('id', $mediaId)->first();
+        return $this->where('container_id', '=', $container->id)->where('id', $mediaId)
+            ->getQueryInstance()->withCompressedCopies()->firstOrFail();
     }
 
 }

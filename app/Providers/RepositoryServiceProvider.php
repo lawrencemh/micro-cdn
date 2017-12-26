@@ -18,6 +18,11 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\ContainerRepositoryInterface',
             'App\Repositories\Eloquent\ContainerRepository');
 
+        // The compressed copy repository.
+        $this->app->bind(
+            'App\Repositories\Contracts\CompressedCopyRepositoryInterface',
+            'App\Repositories\Eloquent\CompressedCopyRepository');
+
         // The media repository.
         $this->app->bind(
             'App\Repositories\Contracts\MediaRepositoryInterface',
