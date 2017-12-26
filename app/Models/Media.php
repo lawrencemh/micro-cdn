@@ -158,4 +158,15 @@ class Media extends Model
     {
         return isset($this->meta_data['can_be_compressed']) ? (bool) $this->meta_data['can_be_compressed'] : false;
     }
+
+    /**
+     * Scope the query to eager load the compressed copy relations.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithCompressedCopies($query)
+    {
+        return $query->with(['small', 'medium', 'large']);
+    }
 }
