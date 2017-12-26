@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Media extends Model
 {
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'small_path',
+        'medium_path',
+        'large_path',
+        'original_path',
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -95,6 +107,46 @@ class Media extends Model
     public function getFullLocalPath()
     {
         return public_path($this->path);
+    }
+
+    /**
+     * Get the small_path attribute value.
+     *
+     * @return string
+     */
+    public function getSmallPathAttribute()
+    {
+        return !is_null($this->small) ? $this->small->getFullPublicPath() : $this->getFullPublicPath();
+    }
+
+    /**
+     * Get the medium_path attribute value.
+     *
+     * @return string
+     */
+    public function getMediumPathAttribute()
+    {
+        return !is_null($this->medium) ? $this->medium->getFullPublicPath() : $this->getFullPublicPath();
+    }
+
+    /**
+     * Get the large_path attribute value.
+     *
+     * @return string
+     */
+    public function getLargePathAttribute()
+    {
+        return !is_null($this->large) ? $this->large->getFullPublicPath() : $this->getFullPublicPath();
+    }
+
+    /**
+     * Get the original_path attribute value.
+     *
+     * @return string
+     */
+    public function getOriginalPathAttribute()
+    {
+        return $this->getFullPublicPath();
     }
 
     /**
