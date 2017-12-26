@@ -4,10 +4,18 @@ namespace App\Services\Media;
 
 use App\Models\Media;
 use App\Services\MediaService;
+use App\Services\CompressedCopyService;
 use App\Exceptions\Services\Media\FailedToRemoveFromStorageException;
 
 class DeleteService
 {
+    /**
+     * The compressed copy service instance.
+     *
+     * @var \App\Services\CompressedCopyService
+     */
+    protected $compressedCopyService;
+
     /**
      * The media model instance.
      *
@@ -25,14 +33,16 @@ class DeleteService
     /**
      * DeleteService constructor.
      *
-     * @param \App\Models\Media          $media
-     * @param \App\Services\MediaService $mediaService
+     * @param \App\Services\CompressedCopyService $compressedCopyService
+     * @param \App\Models\Media                   $media
+     * @param \App\Services\MediaService          $mediaService
      * @return void
      */
-    function __construct(Media $media, MediaService $mediaService)
+    function __construct(CompressedCopyService $compressedCopyService, Media $media, MediaService $mediaService)
     {
-        $this->media        = $media;
-        $this->mediaService = $mediaService;
+        $this->compressedCopyService = $compressedCopyService;
+        $this->media                 = $media;
+        $this->mediaService          = $mediaService;
     }
 
     /**
@@ -47,15 +57,16 @@ class DeleteService
         try {
             // Start DB transaction to allow a rollback in the instance the file fails to remove from storage.
             app('db')->beginTransaction();
-            $this->mediaService->destroy($this->media->id);
 
-            // Check the file exists
-            if (file_exists($this->getFullPath()) === false) {
-                throw new FailedToRemoveFromStorageException("{$this->getFullPath()} does not exist in storage!");
+            // Remove any compressed copies
+            foreach ($this->media->compressedCopies as $copy) {
+                $this->compressedCopyService->destroy($copy->id);
             }
 
+            $this->mediaService->destroy($this->media->id);
+
             // Physically remove file from storage
-            if (unlink($this->getFullPath()) === false) {
+            if (file_exists($this->media->getFullLocalPath()) && unlink($this->media->getFullLocalPath()) === false) {
                 throw new FailedToRemoveFromStorageException('Failed to remove the file from storage');
             }
 
@@ -69,15 +80,5 @@ class DeleteService
         }
 
         return $this->media;
-    }
-
-    /**
-     * Get the full system file path for the given media item.
-     *
-     * @return string
-     */
-    protected function getFullPath()
-    {
-        return public_path($this->media->path);
     }
 }
