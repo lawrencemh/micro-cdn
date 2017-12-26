@@ -24,7 +24,12 @@ class MediaCrudTest extends ApiTestCase
 
         $this->seeJsonStructure([
                 'data' => [
-                    'id', 'attributes'
+                    'id', 'attributes' => [
+                        'small_path',
+                        'medium_path',
+                        'large_path',
+                        'original_path',
+                    ],
                 ]]
         );
 
@@ -34,8 +39,12 @@ class MediaCrudTest extends ApiTestCase
         $this->assertFileExists($filePath);
 
         // delete the test image if it was successfully created
-        if ($this->fileExists($filePath)) {
-            unlink($filePath);
+        if ($this->fileExists($mediaItem->getFullLocalPath())) {
+            unlink($mediaItem->getFullLocalPath());
+
+            foreach ($mediaItem->compressedCopies as $copy) {
+                unlink($copy->getFullLocalPath());
+            }
         }
     }
 
@@ -89,5 +98,9 @@ class MediaCrudTest extends ApiTestCase
         $this->assertResponseStatus(202);
 
         $this->assertFileNotExists($filePath);
+
+        foreach ($mediaItem->compressedCopies as $copy) {
+            $this->assertFileNotExists($copy->getFullLocalPath());
+        }
     }
 }
