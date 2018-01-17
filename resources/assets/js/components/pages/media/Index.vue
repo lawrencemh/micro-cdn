@@ -6,8 +6,10 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    <h3>Containers
-                        <a href="#" class="btn btn-success pull-right">Create Container</a>
+                    <h3>Media Items {{ $route.params.id }}
+                        <router-link class="btn btn-success pull-right" :to="{ name: 'containers.media.create', params: { id: $route.params.id } }">
+                            Add Item
+                        </router-link>
                     </h3>
                 </div>
 
@@ -16,22 +18,28 @@
                         <thead class="thead-inverse">
                             <tr>
                                 <th width="width: 5%">#</th>
-                                <th width="">Name</th>
-                                <th width="">Created On</th>
-                                <th width="">Updated On</th>
-                                <th width="">Actions</th>
+                                <th width="width: 20%">Name</th>
+                                <th width="width: 15%">Thumbnail</th>
+                                <th width="width: 20%">Created On</th>
+                                <th width="width: 20%">Updated On</th>
+                                <th width="width: 20%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            <tr v-for="(container, index) in containers">
-                                <th scope="row">{{ container.id }}</th>
-                                <td>{{ container.attributes.name }}</td>
-                                <td>{{ container.attributes.created_at }}</td>
-                                <td>{{ container.attributes.updated_at }}</td>
+                            <tr v-for="(media, index) in mediaItems">
+                                <th scope="row">{{ media.id }}</th>
+                                <td>{{ media.attributes.name }}</td>
+                                <td><img class="thumb" :src="media.attributes.small_path"></td>
+                                <td>{{ media.attributes.created_at }}</td>
+                                <td>{{ media.attributes.updated_at }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="#" class="btn btn-default">Edit</a>
+
+                                        <router-link class="btn btn-default"
+                                                     :to="{ name: 'containers.media.update', params: { containerId: $route.params.id , mediaId: media.id } }">
+                                            Edit
+                                        </router-link>
                                         <button type="button" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"
                                                 class="btn btn-default dropdown-toggle">
@@ -60,26 +68,33 @@
     export default {
         data () {
             return {
-                containers: []
+                mediaItems: []
             }
         },
 
         mounted() {
-            this.fetchContainersList();
+            this.fetchMediaItemsList();
         },
 
         methods: {
-            fetchContainersList() {
-                axios.get('containers', {
+            fetchMediaItemsList() {
+                let id = this.$route.params.id;
+
+                axios.get('/containers/' + id + '/media/', {
                     headers: {
-                        'api-token' : '3e33a660-15ea-3c15-a8fc-5c8db8eaadcb'
+                        'api-token': this.$cookie.get('api-token')
                     }
                 }).then((res) => {
-                    console.log(res);
-                    this.containers = res.data.data;
+                    this.mediaItems = res.data.data;
                 });
             }
         }
 
     }
 </script>
+<style>
+    img.thumb {
+        max-width: 100px;
+        max-height: 100px;
+    }
+</style>
