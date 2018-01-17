@@ -25,4 +25,6 @@ $app->post('containers/{container}/media', ['uses' => 'User\ContainerMediaContro
 $app->patch('containers/{container}/media/{media}', ['uses' => 'User\ContainerMediaController@update', 'as' => 'user.containers.media.update']);
 $app->delete('containers/{container}/media/{media}', ['uses' => 'User\ContainerMediaController@destroy', 'as' => 'user.containers.media.destroy']);
 
-$app->get('account', 'AccountController@index');
+$app->get('account{any:.*}', 'AccountController@index');
+$app->post('account/auth/login', 'AuthController@index');
+
