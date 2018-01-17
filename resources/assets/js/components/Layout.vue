@@ -8,7 +8,7 @@
 
                     <!-- menu -->
                     <ul class="nav navbar-nav navbar-left">
-                        <li><router-link :to="{ name: 'Account' }">Containers</router-link></li>
+                        <li><router-link :to="{ name: 'containers.index' }">Containers</router-link></li>
                     </ul>
 
                 </div>
