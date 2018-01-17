@@ -16,14 +16,47 @@ require('./bootstrap');
 // Load vue-router
 Vue.use(VueRouter);
 
+// Load vue-cookie
+Vue.use(VueCookie);
+
 // Setup the router
 const router = new VueRouter({
     mode: 'history',
     routes: [
         {
-            name: 'Account',
-            path: '/account',
-            component: require('./components/Containers.vue')
+            name: 'account.auth.login',
+            path: '/account/auth/login',
+            component: require('./components/pages/auth/Login.vue')
+        },
+        {
+            name: 'containers.index',
+            path: '/account/containers/',
+            component: require('./components/pages/containers/Index.vue')
+        },
+        {
+            name: 'containers.create',
+            path: '/account/containers/create',
+            component: require('./components/pages/containers/Create.vue')
+        },
+        {
+            name: 'containers.update',
+            path: '/account/containers/:id/update',
+            component: require('./components/pages/containers/Update.vue')
+        },
+        {
+            name: 'containers.media.index',
+            path: '/account/containers/:id/media/',
+            component: require('./components/pages/media/Index.vue')
+        },
+        {
+            name: 'containers.media.create',
+            path: '/account/containers/:id/media/create',
+            component: require('./components/pages/media/Create.vue')
+        },
+        {
+            name: 'containers.media.update',
+            path: '/account/containers/:containerId/media/:mediaId/edit',
+            component: require('./components/pages/media/Update.vue')
         },
     ]
 });
