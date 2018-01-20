@@ -17,12 +17,15 @@ class AuthController extends BaseController
     public function index(Request $request)
     {
         $this->validate($request, [
-            'email'    => 'required|email',
-            'password' => 'required',
+            'api-token'    => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        try {
+            User::where('api_token', $request->get('api-token'))->firstOrFail();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response("Unauthorized",401);
+        }
 
-        return response()->json(['token' => $user->api_token], 200);
+        return response()->json(['valid' => true], 200);
     }
 }
