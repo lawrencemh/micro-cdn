@@ -12,17 +12,14 @@
                 <div class="panel-body">
 
                     <form @submit.prevent="login()">
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input name="email" type="email" v-model.trim="email" class="form-control" id="email"
-                                   placeholder="Email">
-                        </div>
 
-                        <!-- password -->
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input name="password" type="password" v-model="password" class="form-control" id="password"
-                                   placeholder="Password">
+                        <!-- Api Token -->
+                        <div class="form-group" v-bind:class="{ 'has-error': error.length }">
+                            <label class="control-label" for="api-token">Api Token</label>
+                            <input name="api-token" type="text" v-model.trim="apiToken" class="form-control"
+                                   id="api-token"
+                                   placeholder="api-token">
+                            <span class="help-block">{{ error }}</span>
                         </div>
 
                         <button type="submit" class="btn btn-primary pull-right">Login</button>
@@ -41,8 +38,8 @@
     export default {
         data () {
             return {
-                email   : '',
-                password: '',
+                apiToken: '',
+                error   : '',
             }
         },
 
@@ -52,17 +49,37 @@
 
         methods: {
             login() {
-                axios.post('/account/auth/login', {email: this.email, password: this.password})
+                axios.post('/account/auth/login', {'api-token': this.apiToken})
                     .then((res) => {
-                        this.$cookie.set('api-token', res.data.token, {expires: '30m'});
-                        this.successfulLogin();
+
+                        this.successfulLogin(res.data.token);
                     })
-                    .catch((err) => console.error(err));
+                    .catch((err) => this.loginFailed(err));
+            },
+
+            loginFailed(error) {
+                switch (error.response.status) {
+
+                    // Unauthorized
+                    case 401:
+                        this.error = "The api-token was rejected by the server";
+                        break;
+
+                    // Invalid
+                    case 422:
+                        this.error = "The api-token is not a valid format";
+                        break;
+
+                    // Unhandled error
+                    default:
+                        this.error = "Something went wrong trying to process this request";
+                }
             },
 
             successfulLogin() {
+                this.error = '';
+                this.$cookie.set('api-token', this.apiToken, {expires: '30m'});
                 this.$router.push({name: 'containers.index'});
-                console.log("WHY");
             },
         }
 
