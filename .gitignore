@@ -6,5 +6,6 @@ Homestead.yaml
 /nbproject
 /database/database.sqlite
 /public/images
+/public/build
 /node_modules
 .DS_Store
