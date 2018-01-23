@@ -19,6 +19,10 @@ Vue.use(VueRouter);
 // Load vue-cookie
 Vue.use(VueCookie);
 
+// Initiate the ApiRestResource service we will use to interact with the API
+import ApiRestResource from './services/ApiRestResource';
+window.apiRestResourceService = new ApiRestResource();
+
 // Setup the router
 const router = new VueRouter({
     mode: 'history',
