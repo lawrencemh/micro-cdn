@@ -78,7 +78,12 @@
 
             successfulLogin() {
                 this.error = '';
+
+                // Set the cookie and update the api service to use the token in its headers
                 this.$cookie.set('api-token', this.apiToken, {expires: '30m'});
+                apiRestResourceService.setToken(this.apiToken);
+
+                // Redirect to the containers page
                 this.$router.push({name: 'containers.index'});
             },
         }

@@ -8,7 +8,7 @@
                     <!-- menu -->
                     <ul class="nav navbar-nav navbar-left">
                         <li>
-                            <router-link :to="{ name: 'containers.index' }">Containers</router-link>
+                            <router-link v-if="loggedIn" :to="{ name: 'containers.index' }">Containers</router-link>
                         </li>
                     </ul>
                 </div>
@@ -52,7 +52,7 @@
         },
 
         mounted() {
-            this.loggedIn = !!this.$cookie.get('api-token');
+            this.initApiRestResourceService();
         },
 
         methods: {
@@ -63,8 +63,25 @@
                     this.$cookie.delete('api-token');
                 }
 
+                // Forget the api token
+                apiRestResourceService.forgetToken();
+
+                // Redirect to login
                 this.loggedIn = false;
                 this.$router.push({name: 'account.auth.login'});
+            },
+
+            initApiRestResourceService() {
+                let token = this.$cookie.get('api-token');
+
+                // Set the api-token if present
+                if (token !== undefined && token !== null) {
+                    apiRestResourceService.setToken(this.$cookie.get('api-token'));
+                    this.loggedIn = true;
+                } else {
+                    this.$router.push({name: 'account.auth.login'});
+                }
+
             }
         }
 
