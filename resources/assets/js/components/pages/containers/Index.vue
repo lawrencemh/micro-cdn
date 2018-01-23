@@ -46,7 +46,8 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                <router-link :to="{ name: 'containers.media.index', params: { id: container.id } }">
+                                                <router-link
+                                                        :to="{ name: 'containers.media.index', params: { id: container.id } }">
                                                     View
                                                 </router-link>
                                             </li>
@@ -80,13 +81,10 @@
 
         methods: {
             fetchContainersList() {
-                axios.get('/containers', {
-                    headers: {
-                        'api-token': this.$cookie.get('api-token')
-                    }
-                }).then((res) => {
-                    this.containers = res.data.data;
-                });
+                apiRestResourceService.getUrl('/containers')
+                    .then((res) => {
+                        this.containers = res.data.data
+                    });
             }
         }
 

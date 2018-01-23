@@ -7,7 +7,8 @@
 
                 <div class="panel-heading">
                     <h3>Media Items {{ $route.params.id }}
-                        <router-link class="btn btn-success pull-right" :to="{ name: 'containers.media.create', params: { id: $route.params.id } }">
+                        <router-link class="btn btn-success pull-right"
+                                     :to="{ name: 'containers.media.create', params: { id: $route.params.id } }">
                             Add Item
                         </router-link>
                     </h3>
@@ -80,13 +81,10 @@
             fetchMediaItemsList() {
                 let id = this.$route.params.id;
 
-                axios.get('/containers/' + id + '/media/', {
-                    headers: {
-                        'api-token': this.$cookie.get('api-token')
-                    }
-                }).then((res) => {
-                    this.mediaItems = res.data.data;
-                });
+                apiRestResourceService.getUrl('/containers/' + id + '/media/')
+                    .then((res) => {
+                        this.mediaItems = res.data.data;
+                    });
             }
         }
 
