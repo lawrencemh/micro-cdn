@@ -43,9 +43,9 @@ const router = new VueRouter({
             component: require('./components/pages/containers/Create.vue')
         },
         {
-            name: 'containers.update',
-            path: '/account/containers/:id/update',
-            component: require('./components/pages/containers/Update.vue')
+            name: 'containers.edit',
+            path: '/account/containers/:id/edit',
+            component: require('./components/pages/containers/Edit.vue')
         },
         {
             name: 'containers.media.index',
