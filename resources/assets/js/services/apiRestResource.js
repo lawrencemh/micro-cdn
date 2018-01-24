@@ -76,6 +76,17 @@ export default class ApiRestResource {
     }
 
     /**
+     * Carry out a PATCH request for the given url and data.
+     *
+     * @param url
+     * @param data
+     * @returns {object}
+     */
+    patchUrl(url, data = {}) {
+        return axios.patch(url, data, this.getHeaders());
+    }
+
+    /**
      * Return the value for the given cookie key.
      *
      * @param name
