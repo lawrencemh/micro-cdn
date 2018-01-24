@@ -65,6 +65,17 @@ export default class ApiRestResource {
     }
 
     /**
+     * Carry out a POST request for the given url and data.
+     *
+     * @param url
+     * @param data
+     * @returns {object}
+     */
+    postUrl(url, data = {}) {
+        return axios.post(url, data, this.getHeaders());
+    }
+
+    /**
      * Return the value for the given cookie key.
      *
      * @param name
