@@ -10,7 +10,19 @@
                 </div>
 
                 <div class="panel-body">
-                    <p>Form here</p>
+                    <form @submit.prevent="createContainer()">
+
+                        <!-- Name -->
+                        <div class="form-group" v-bind:class="{ 'has-error': error.length }">
+                            <label class="control-label" for="name">Name</label>
+                            <input name="name" type="text" v-model.trim="name" class="form-control"
+                                   id="aname"
+                                   placeholder="Name">
+                            <span class="help-block">{{ error }}</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary pull-right">Create</button>
+                    </form>
                 </div>
 
             </div>
@@ -23,16 +35,27 @@
     export default {
         data () {
             return {
-                //
+                name : '',
+                error: '',
             }
         },
 
-        mounted() {
-            //
-        },
-
         methods: {
-            //
+            createContainer() {
+                apiRestResourceService.postUrl('/containers', {name: this.name})
+                    .then((res) => {
+
+                        // Redirect to the containers page
+                        this.$router.push({name: 'containers.index'});
+                    })
+                    .catch((error) => {
+
+                        // Check if name error present
+                        if (error.response.data.errors.name[0] !== undefined) {
+                            this.error = error.response.data.errors.name[0];
+                        }
+                    });
+            }
         }
 
     }
