@@ -47,9 +47,11 @@ class CreateService
 
     /**
      * CreateService constructor.
+     *
      * @param \App\Services\MediaService                          $mediaService
      * @param \App\Models\Container                               $container
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     *
      * @return void
      */
     public function __construct(MediaService $mediaService, Container $container, UploadedFile $file)
@@ -66,13 +68,14 @@ class CreateService
      *
      * @param int  $length
      * @param bool $includeNumbers
+     *
      * @return string
      */
     protected function generateRandomAlphaString($length = 10, $includeNumbers = false)
     {
         $string     = '';
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $characters = $includeNumbers ? $characters . '0123456789' : $characters;
+        $characters = $includeNumbers ? $characters.'0123456789' : $characters;
         $maxLen     = strlen($characters) - 1;
 
         for ($i = 0; $i < $length; $i++) {
@@ -90,7 +93,7 @@ class CreateService
     protected function generateValidFilePath()
     {
         return removeDoubleForwardSlash(
-            "images/" . $this->generateRandomAlphaString(2)
+            'images/'.$this->generateRandomAlphaString(2)
         );
     }
 
@@ -107,7 +110,7 @@ class CreateService
             $fullPath     = "{$this->filePath}/{$randomString}{$fileExtension}";
         } while (file_exists($fullPath));
 
-        return $randomString . $fileExtension;
+        return $randomString.$fileExtension;
     }
 
     /**

@@ -19,7 +19,7 @@ class ApiTestCase extends TestCase
             'id',
             'type',
             'status',
-            'attributes' => ['name']
+            'attributes' => ['name'],
         ],
     ];
 
@@ -53,5 +53,4 @@ class ApiTestCase extends TestCase
             'Resource not found',
         ],
     ];
-
 }

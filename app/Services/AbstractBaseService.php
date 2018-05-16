@@ -25,6 +25,7 @@ abstract class AbstractBaseService
      * Create a new entity using the repository instance.
      *
      * @param array $input
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $input)
@@ -36,6 +37,7 @@ abstract class AbstractBaseService
      * Delete the given entity id using the repository.
      *
      * @param int $id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function destroy(int $id)
@@ -47,6 +49,7 @@ abstract class AbstractBaseService
      * Retrieve a model in the repository by its id.
      *
      * @param int $id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function findById(int $id)
@@ -65,7 +68,7 @@ abstract class AbstractBaseService
     }
 
     /**
-     * Update model by id
+     * Update model by id.
      *
      * @param int   $id
      * @param array $input
@@ -76,5 +79,4 @@ abstract class AbstractBaseService
     {
         return $this->repository->updateById($id, $input);
     }
-
 }

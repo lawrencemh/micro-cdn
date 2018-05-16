@@ -163,6 +163,7 @@ class Media extends Model
      * Scope the query to eager load the compressed copy relations.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithCompressedCopies($query)

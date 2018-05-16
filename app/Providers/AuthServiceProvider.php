@@ -46,6 +46,7 @@ class AuthServiceProvider extends ServiceProvider
      * Retrieve the api token form the request headers or parameters.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return string|null
      */
     protected function retrieveApiKeyFromRequest(Request $request)

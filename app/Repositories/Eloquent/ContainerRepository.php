@@ -19,6 +19,7 @@ class ContainerRepository extends AbstractBaseRepository implements ContainerRep
      * ContainerRepository constructor.
      *
      * @param \App\Models\Container $container
+     *
      * @return void
      */
     public function __construct(Container $container)
@@ -30,6 +31,7 @@ class ContainerRepository extends AbstractBaseRepository implements ContainerRep
      * Return all containers that belong to the given user.
      *
      * @param \App\Models\User $user
+     *
      * @return mixed
      */
     public function getAllContainersBelongingToUser(User $user)
@@ -42,6 +44,7 @@ class ContainerRepository extends AbstractBaseRepository implements ContainerRep
      *
      * @param \App\Models\User $user
      * @param                  $containerId
+     *
      * @return mixed
      */
     public function getContainerBelongingToUser(User $user, $containerId)
