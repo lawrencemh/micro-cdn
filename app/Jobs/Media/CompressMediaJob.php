@@ -26,6 +26,7 @@ class CompressMediaJob extends Job
      * Create a new job instance.
      *
      * @param \App\Models\Media $media
+     *
      * @return void
      */
     public function __construct(Media $media)

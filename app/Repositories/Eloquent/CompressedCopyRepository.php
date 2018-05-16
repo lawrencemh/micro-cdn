@@ -18,9 +18,10 @@ class CompressedCopyRepository extends AbstractBaseRepository implements Compres
      * CompressedCopyRepository constructor.
      *
      * @param \App\Models\CompressedCopy|null $compressedCopy
+     *
      * @return void
      */
-    function __construct(CompressedCopy $compressedCopy = null)
+    public function __construct(CompressedCopy $compressedCopy = null)
     {
         $this->model = $compressedCopy ?? app(CompressedCopy::class);
     }

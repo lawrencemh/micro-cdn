@@ -35,14 +35,14 @@ class DeleteService
      * @param \App\Models\Container          $container
      * @param \App\Services\ContainerService $containerService
      * @param \App\Services\MediaService     $mediaService
+     *
      * @return void
      */
     public function __construct(
         Container $container,
         ContainerService $containerService,
         MediaService $mediaService
-    )
-    {
+    ) {
         $this->container        = $container;
         $this->containerService = $containerService;
         $this->mediaService     = $mediaService;

@@ -24,6 +24,7 @@ class JsonService
      * @param             $array
      * @param string|null $type
      * @param string      $entityStatus
+     *
      * @return $this
      */
     public function setReturnObject($array, $type = null, $entityStatus = 'exists')
@@ -35,7 +36,6 @@ class JsonService
             foreach ($array as $item) {
                 $this->response['data'][] = $this->generateEntityArrayObject($item, $type, $entityStatus);
             }
-
         } elseif (count($array) > 0) {
 
             // single entity
@@ -55,6 +55,7 @@ class JsonService
      * @param $array
      * @param $type
      * @param $entityStatus
+     *
      * @return array
      */
     protected function generateEntityArrayObject($array, $type, $entityStatus)
@@ -89,6 +90,7 @@ class JsonService
      * Set the errors to be included in the response.
      *
      * @param $array
+     *
      * @return $this
      */
     public function setErrors($array)
@@ -128,6 +130,7 @@ class JsonService
      * Set the HTTP response code.
      *
      * @param int $code
+     *
      * @return $this
      */
     public function setResponseCode($code = 200)

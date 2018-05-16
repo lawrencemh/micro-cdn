@@ -23,14 +23,14 @@ class MediaCrudTest extends ApiTestCase
         $this->assertResponseStatus(201);
 
         $this->seeJsonStructure([
-                'data' => [
-                    'id', 'attributes' => [
-                        'small_path',
-                        'medium_path',
-                        'large_path',
-                        'original_path',
-                    ],
-                ]]
+            'data' => [
+                'id', 'attributes' => [
+                    'small_path',
+                    'medium_path',
+                    'large_path',
+                    'original_path',
+                ],
+            ], ]
         );
 
         $mediaItem = $container->refresh()->media->first();
@@ -65,7 +65,7 @@ class MediaCrudTest extends ApiTestCase
         $this->call('patch', "containers/{$container->id}/media/{$media->id}", [
             'api_token' => $user->api_token,
             'meta_data' => [
-                'new_key' => true
+                'new_key' => true,
             ],
         ], [], [], ['Accept' => 'application/json']);
 

@@ -13,18 +13,18 @@
 
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        'name'      => $faker->name,
+        'email'     => $faker->email,
         'api_token' => $faker->uuid,
     ];
 });
 
 $factory->defineAs(App\Models\User::class, 'admin', function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        'name'      => $faker->name,
+        'email'     => $faker->email,
         'api_token' => $faker->uuid,
-        'admin' => true,
+        'admin'     => true,
     ];
 });
 
@@ -36,12 +36,12 @@ $factory->define(App\Models\Container::class, function (Faker\Generator $faker) 
 
 $factory->define(App\Models\Media::class, function (Faker\Generator $faker) {
     return [
-        'name' => "{$faker->name}.{$faker->fileExtension}",
+        'name'      => "{$faker->name}.{$faker->fileExtension}",
         'meta_data' => [
-            'file_mime' => $faker->mimeType,
+            'file_mime'          => $faker->mimeType,
             'has_been_processed' => false,
-            'can_be_processed' => true,
+            'can_be_processed'   => true,
         ],
-        'path' => "{$faker->name}.{$faker->fileExtension}"
+        'path' => "{$faker->name}.{$faker->fileExtension}",
     ];
 });

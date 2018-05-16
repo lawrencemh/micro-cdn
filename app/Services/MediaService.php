@@ -23,9 +23,10 @@ class MediaService extends AbstractBaseService
      * MediaService constructor.
      *
      * @param \App\Repositories\Contracts\MediaRepositoryInterface|null $mediaRepository
+     *
      * @return void
      */
-    function __construct(MediaRepositoryInterface $mediaRepository = null)
+    public function __construct(MediaRepositoryInterface $mediaRepository = null)
     {
         $this->repository = $mediaRepository ?? app(MediaRepositoryInterface::class);
     }
@@ -35,17 +36,19 @@ class MediaService extends AbstractBaseService
      *
      * @param \App\Models\Container                               $container
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     *
      * @return \App\Services\Media\CreateService
      */
     public function createMediaItem(Container $container, UploadedFile $file)
     {
-        return new CreateService(app(MediaService::class), $container, $file);
+        return new CreateService(app(self::class), $container, $file);
     }
 
     /**
      * Update a given media item.
      *
      * @param \App\Models\Media $media
+     *
      * @return \app\Services\Media\UpdateService
      */
     public function update(Media $media)
@@ -58,11 +61,12 @@ class MediaService extends AbstractBaseService
      * in storage.
      *
      * @param \App\Models\Media $media
+     *
      * @return \App\Models\Media
      */
     public function delete(Media $media)
     {
-        return (new DeleteService(app(CompressedCopyService::class), $media, app(MediaService::class)))
+        return (new DeleteService(app(CompressedCopyService::class), $media, app(self::class)))
             ->delete();
     }
 
@@ -70,6 +74,7 @@ class MediaService extends AbstractBaseService
      * Get all media items belonging to the given container.
      *
      * @param \App\Models\Container $container
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getAllMediaBelongingToContainer(Container $container)
@@ -82,6 +87,7 @@ class MediaService extends AbstractBaseService
      *
      * @param \App\Models\Container $container
      * @param int                   $mediaId
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function getMediaItemBelongingToContainer(Container $container, $mediaId)

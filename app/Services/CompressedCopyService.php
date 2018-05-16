@@ -18,9 +18,10 @@ class CompressedCopyService extends AbstractBaseService
      * CompressedCopyService constructor.
      *
      * @param \App\Repositories\Contracts\CompressedCopyRepositoryInterface $compressedCopyRepository
+     *
      * @return void
      */
-    function __construct(CompressedCopyRepositoryInterface $compressedCopyRepository = null)
+    public function __construct(CompressedCopyRepositoryInterface $compressedCopyRepository = null)
     {
         $this->repository = $compressedCopyRepository ?? app(CompressedCopyRepositoryInterface::class);
     }
@@ -29,6 +30,7 @@ class CompressedCopyService extends AbstractBaseService
      * Delete the given entity id using the repository.
      *
      * @param int $id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function destroy(int $id)

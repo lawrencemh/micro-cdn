@@ -15,6 +15,7 @@ interface BaseRepositoryInterface
      * Create a new entity for the given model.
      *
      * @param array $input
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $input);
@@ -23,6 +24,7 @@ interface BaseRepositoryInterface
      * Delete the given entity.
      *
      * @param int $id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function destroy(int $id);
@@ -31,6 +33,7 @@ interface BaseRepositoryInterface
      * Find a model by its ID.
      *
      * @param int $id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function findById(int $id);
@@ -54,6 +57,7 @@ interface BaseRepositoryInterface
      *
      * @param int   $id
      * @param array $input
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateById(int $id, array $input);
@@ -65,8 +69,8 @@ interface BaseRepositoryInterface
      * @param null   $operator
      * @param null   $value
      * @param string $boolean
+     *
      * @return $this
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and');
-
 }

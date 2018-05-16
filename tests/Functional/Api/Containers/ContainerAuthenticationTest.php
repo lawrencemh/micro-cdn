@@ -167,6 +167,4 @@ class ContainerAuthenticationTest extends ApiTestCase
             'name'      => 'NewTestName',
         ]);
     }
-
-
 }

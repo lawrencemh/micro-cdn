@@ -25,7 +25,7 @@ class CreateCompressedCopies extends Command
      * CreateUser constructor.
      *
      * @param \App\Models\User $user
-     * @param \Faker\Factory $faker
+     * @param \Faker\Factory   $faker
      */
     public function __construct(MediaService $mediaService)
     {
@@ -54,7 +54,6 @@ class CreateCompressedCopies extends Command
                 dispatch($job);
                 $this->info("Scheduled media #{$item->id} to have compressed copies created");
             }
-
         }
 
         return 0;

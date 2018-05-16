@@ -15,7 +15,7 @@ class ContainerCrudTest extends ApiTestCase
 
         $this->call('POST', '/containers', [
             'api_token' => $user->api_token,
-            'name' => 'testContainer',
+            'name'      => 'testContainer',
         ]);
 
         $this->seeJsonStructure($this->apiResourceCreatedJsonStructure);
@@ -43,7 +43,7 @@ class ContainerCrudTest extends ApiTestCase
 
         $this->assertResponseStatus(200);
 
-        $this->seeJsonStructure(['data' => [['id'],['id']]]);
+        $this->seeJsonStructure(['data' => [['id'], ['id']]]);
     }
 
     /**
