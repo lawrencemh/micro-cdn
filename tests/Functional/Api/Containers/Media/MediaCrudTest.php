@@ -12,7 +12,7 @@ class MediaCrudTest extends ApiTestCase
         $user = factory('App\Models\User')->create();
         $user->containers()->save(factory('App\Models\Container')->make());
         $container = $user->containers->first();
-        $image     = UploadedFile::fake()->image('file.jpg', 600, 600);
+        $image = UploadedFile::fake()->image('file.jpg', 600, 600);
 
         $this->call('POST', "/containers/{$container->id}/media", [
             'api_token' => $user->api_token,
@@ -30,11 +30,11 @@ class MediaCrudTest extends ApiTestCase
                         'large_path',
                         'original_path',
                     ],
-                ]]
+                ], ]
         );
 
         $mediaItem = $container->refresh()->media->first();
-        $filePath  = public_path($mediaItem->path);
+        $filePath = public_path($mediaItem->path);
 
         $this->assertFileExists($filePath);
 
@@ -59,13 +59,13 @@ class MediaCrudTest extends ApiTestCase
         $user->containers()->save(factory('App\Models\Container')->make());
 
         $container = $user->containers->first();
-        $media     = factory('App\Models\Media')->make();
+        $media = factory('App\Models\Media')->make();
         $container->media()->save($media);
 
         $this->call('patch', "containers/{$container->id}/media/{$media->id}", [
             'api_token' => $user->api_token,
             'meta_data' => [
-                'new_key' => true
+                'new_key' => true,
             ],
         ], [], [], ['Accept' => 'application/json']);
 
@@ -81,7 +81,7 @@ class MediaCrudTest extends ApiTestCase
         $user = factory('App\Models\User')->create();
         $user->containers()->save(factory('App\Models\Container')->make());
         $container = $user->containers->first();
-        $image     = UploadedFile::fake()->image('file.jpg', 600, 600);
+        $image = UploadedFile::fake()->image('file.jpg', 600, 600);
 
         $this->call('POST', "/containers/{$container->id}/media", [
             'api_token' => $user->api_token,
@@ -90,7 +90,7 @@ class MediaCrudTest extends ApiTestCase
         ], ['Accept' => 'application/json']);
 
         $mediaItem = $container->refresh()->media->first();
-        $filePath  = public_path($mediaItem->path);
+        $filePath = public_path($mediaItem->path);
 
         $this->assertFileExists($filePath);
 

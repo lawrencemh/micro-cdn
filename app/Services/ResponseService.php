@@ -13,6 +13,6 @@ class ResponseService
      */
     public function json()
     {
-        return new JsonService;
+        return new JsonService();
     }
 }

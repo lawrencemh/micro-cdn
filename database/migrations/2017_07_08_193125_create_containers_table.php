@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateContainersTable extends Migration
 {
@@ -18,11 +18,10 @@ class CreateContainersTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->string('name');
             $table->timestamps();
-            
+
             $table->foreign('user_id')->references('id')->on('users')
                     ->onDelete('cascade');
         });
-        
     }
 
     /**

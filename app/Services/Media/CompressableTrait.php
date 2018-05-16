@@ -10,6 +10,7 @@ trait CompressableTrait
      * Check whether the uploaded file is an image that can be compressed.
      *
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     *
      * @return bool
      */
     protected function canBeCompressed(UploadedFile $file)

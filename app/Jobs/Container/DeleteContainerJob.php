@@ -29,7 +29,7 @@ class DeleteContainerJob extends Job
      */
     public function __construct(Container $container, ContainerService $containerService)
     {
-        $this->container        = $container;
+        $this->container = $container;
         $this->containerService = $containerService;
     }
 

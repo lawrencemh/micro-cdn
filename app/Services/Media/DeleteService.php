@@ -2,10 +2,10 @@
 
 namespace App\Services\Media;
 
-use App\Models\Media;
-use App\Services\MediaService;
-use App\Services\CompressedCopyService;
 use App\Exceptions\Services\Media\FailedToRemoveFromStorageException;
+use App\Models\Media;
+use App\Services\CompressedCopyService;
+use App\Services\MediaService;
 
 class DeleteService
 {
@@ -36,21 +36,23 @@ class DeleteService
      * @param \App\Services\CompressedCopyService $compressedCopyService
      * @param \App\Models\Media                   $media
      * @param \App\Services\MediaService          $mediaService
+     *
      * @return void
      */
-    function __construct(CompressedCopyService $compressedCopyService, Media $media, MediaService $mediaService)
+    public function __construct(CompressedCopyService $compressedCopyService, Media $media, MediaService $mediaService)
     {
         $this->compressedCopyService = $compressedCopyService;
-        $this->media                 = $media;
-        $this->mediaService          = $mediaService;
+        $this->media = $media;
+        $this->mediaService = $mediaService;
     }
 
     /**
      * Delete the media item from storage and queue a job to delete the physical file
      * in storage.
      *
-     * @return \App\Models\Media
      * @throws \App\Exceptions\Services\Media\FailedToRemoveFromStorageException
+     *
+     * @return \App\Models\Media
      */
     public function delete()
     {
@@ -72,10 +74,9 @@ class DeleteService
 
             // Successfully removed commit changes to database.
             app('db')->commit();
-
         } catch (FailedToRemoveFromStorageException $e) {
-
             app('db')->rollBack();
+
             throw $e;
         }
 

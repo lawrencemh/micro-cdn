@@ -29,7 +29,7 @@ class DeleteMediaJob extends Job
      */
     public function __construct(Media $media, MediaService $mediaService)
     {
-        $this->media        = $media;
+        $this->media = $media;
         $this->mediaService = $mediaService;
     }
 

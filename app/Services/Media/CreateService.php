@@ -47,18 +47,20 @@ class CreateService
 
     /**
      * CreateService constructor.
+     *
      * @param \App\Services\MediaService                          $mediaService
      * @param \App\Models\Container                               $container
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     *
      * @return void
      */
     public function __construct(MediaService $mediaService, Container $container, UploadedFile $file)
     {
         $this->mediaService = $mediaService;
-        $this->container    = $container;
-        $this->file         = $file;
-        $this->filePath     = $this->generateValidFilePath();
-        $this->fileName     = $this->generateValidFileName();
+        $this->container = $container;
+        $this->file = $file;
+        $this->filePath = $this->generateValidFilePath();
+        $this->fileName = $this->generateValidFileName();
     }
 
     /**
@@ -66,14 +68,15 @@ class CreateService
      *
      * @param int  $length
      * @param bool $includeNumbers
+     *
      * @return string
      */
     protected function generateRandomAlphaString($length = 10, $includeNumbers = false)
     {
-        $string     = '';
+        $string = '';
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $characters = $includeNumbers ? $characters . '0123456789' : $characters;
-        $maxLen     = strlen($characters) - 1;
+        $characters = $includeNumbers ? $characters.'0123456789' : $characters;
+        $maxLen = strlen($characters) - 1;
 
         for ($i = 0; $i < $length; $i++) {
             $string .= $characters[mt_rand(0, $maxLen)];
@@ -90,7 +93,7 @@ class CreateService
     protected function generateValidFilePath()
     {
         return removeDoubleForwardSlash(
-            "images/" . $this->generateRandomAlphaString(2)
+            'images/'.$this->generateRandomAlphaString(2)
         );
     }
 
@@ -104,10 +107,10 @@ class CreateService
         $fileExtension = $this->generateValidExtension();
         do {
             $randomString = $this->generateRandomAlphaString(10, true);
-            $fullPath     = "{$this->filePath}/{$randomString}{$fileExtension}";
+            $fullPath = "{$this->filePath}/{$randomString}{$fileExtension}";
         } while (file_exists($fullPath));
 
-        return $randomString . $fileExtension;
+        return $randomString.$fileExtension;
     }
 
     /**

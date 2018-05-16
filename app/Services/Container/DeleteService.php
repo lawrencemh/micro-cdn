@@ -3,8 +3,8 @@
 namespace App\Services\Container;
 
 use App\Models\Container;
-use App\Services\MediaService;
 use App\Services\ContainerService;
+use App\Services\MediaService;
 
 class DeleteService
 {
@@ -35,17 +35,17 @@ class DeleteService
      * @param \App\Models\Container          $container
      * @param \App\Services\ContainerService $containerService
      * @param \App\Services\MediaService     $mediaService
+     *
      * @return void
      */
     public function __construct(
         Container $container,
         ContainerService $containerService,
         MediaService $mediaService
-    )
-    {
-        $this->container        = $container;
+    ) {
+        $this->container = $container;
         $this->containerService = $containerService;
-        $this->mediaService     = $mediaService;
+        $this->mediaService = $mediaService;
     }
 
     /**

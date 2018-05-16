@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
-use App\Services\MediaService;
-use App\Services\ContainerService;
-use App\Jobs\Media\DeleteMediaJob;
 use App\Http\Controllers\Controller;
+use App\Jobs\Media\DeleteMediaJob;
+use App\Services\ContainerService;
+use App\Services\MediaService;
+use Illuminate\Http\Request;
 
 class ContainerMediaController extends Controller
 {
@@ -24,6 +24,7 @@ class ContainerMediaController extends Controller
      *
      * @param \App\Services\ContainerService $containerService
      * @param \App\Services\MediaService     $mediaService
+     *
      * @return void
      */
     public function __construct(ContainerService $containerService, MediaService $mediaService)
@@ -31,7 +32,7 @@ class ContainerMediaController extends Controller
         $this->middleware('auth');
 
         $this->containerService = $containerService;
-        $this->mediaService     = $mediaService;
+        $this->mediaService = $mediaService;
     }
 
     /**
@@ -39,18 +40,18 @@ class ContainerMediaController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int                      $containerId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request, $containerId)
     {
         try {
-            $container  = $this->containerService->getContainerBelongingToUser($request->user(), $containerId);
+            $container = $this->containerService->getContainerBelongingToUser($request->user(), $containerId);
             $mediaItems = $this->mediaService->getAllMediaBelongingToContainer($container);
 
             return $this->responseService()->json()
                 ->setReturnObject($mediaItems->toArray(), 'Media')
                 ->render();
-
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // Resource not found or not owned by authorised user
@@ -65,6 +66,7 @@ class ContainerMediaController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int                      $containerId
      * @param int                      $mediaId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Request $request, $containerId, $mediaId)
@@ -76,7 +78,6 @@ class ContainerMediaController extends Controller
             return $this->responseService()->json()
                 ->setReturnObject($mediaItem->toArray(), 'Media')
                 ->render();
-
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // Resource not found or not owned by authorised user
@@ -90,6 +91,7 @@ class ContainerMediaController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int                      $containerId
+     *
      * @return string
      */
     public function store(Request $request, $containerId)
@@ -117,6 +119,7 @@ class ContainerMediaController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int                      $containerId
      * @param int                      $mediaId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $containerId, $mediaId)
@@ -137,7 +140,6 @@ class ContainerMediaController extends Controller
                 ->setReturnObject($mediaItem->toArray(), 'Media')
                 ->setResponseCode(200)
                 ->render();
-
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // Resource not found or not owned by authorised user
@@ -152,6 +154,7 @@ class ContainerMediaController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int                      $containerId
      * @param int                      $mediaId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request, $containerId, $mediaId)
@@ -168,7 +171,6 @@ class ContainerMediaController extends Controller
                 ->setReturnObject($mediaItem->toArray(), 'Media', 'deleted')
                 ->setResponseCode(202)
                 ->render();
-
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // Resource not found or not owned by authorised user

@@ -41,6 +41,7 @@ class ImageOptimiserService
      * @param \App\Models\Media                   $media
      * @param \App\Services\MediaService|null     $mediaService
      * @param \App\Services\CompressedCopyService $compressedCopyService
+     *
      * @return void
      */
     public function __construct(
@@ -48,10 +49,10 @@ class ImageOptimiserService
         MediaService $mediaService = null,
         CompressedCopyService $compressedCopyService = null
     ) {
-        $this->imageResizer          = new ImageResizer($media->getFullLocalPath());
+        $this->imageResizer = new ImageResizer($media->getFullLocalPath());
         $this->compressedCopyService = $compressedCopyService ?? app(CompressedCopyService::class);
-        $this->media                 = $media;
-        $this->mediaService          = $mediaService ?? app(MediaService::class);
+        $this->media = $media;
+        $this->mediaService = $mediaService ?? app(MediaService::class);
     }
 
     /**
@@ -59,20 +60,21 @@ class ImageOptimiserService
      *
      * @param string $path
      * @param string $suffix
+     *
      * @return string
      */
     protected function addsuffixToFileNameFromPath($path, $suffix = '')
     {
         $fileName = pathinfo($path, PATHINFO_FILENAME);
-        $ext      = pathinfo($path, PATHINFO_EXTENSION);
-        $path     = pathinfo($path, PATHINFO_DIRNAME);
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        $path = pathinfo($path, PATHINFO_DIRNAME);
 
         return "{$path}/{$fileName}{$suffix}.{$ext}";
     }
 
     /**
      * Compress the given media item's original image file to the specified
-     * quality levels set in the .env
+     * quality levels set in the .env.
      *
      * @return $this
      */
@@ -96,7 +98,6 @@ class ImageOptimiserService
 
         return $this;
     }
-
 
     /**
      * Attempt to create the compressed copies for the media item.
@@ -143,6 +144,7 @@ class ImageOptimiserService
      * @param int    $maxLongestSide
      * @param string $fileSuffix
      * @param string $type
+     *
      * @return \App\Models\CompressedCopy
      */
     protected function createCompressedCopy($maxLongestSide, $fileSuffix, $type)
@@ -165,6 +167,7 @@ class ImageOptimiserService
      *
      * @param int    $maxLongestSide
      * @param string $fileSuffix
+     *
      * @return string
      */
     protected function createResizedCopyOfImage($maxLongestSide = 1000, $fileSuffix = 'lg')
@@ -184,17 +187,19 @@ class ImageOptimiserService
      * Return the filename and extension for the given path.
      *
      * @param string $path
+     *
      * @return string
      */
     protected function getFileNameAndExtensionFromPath($path)
     {
-        return pathinfo($path, PATHINFO_FILENAME) . '.' . pathinfo($path, PATHINFO_EXTENSION);
+        return pathinfo($path, PATHINFO_FILENAME).'.'.pathinfo($path, PATHINFO_EXTENSION);
     }
 
     /**
      * Set the quality levels based on the given quality level.
      *
      * @param int $quality
+     *
      * @return void
      */
     protected function setQualityLevels($quality)
@@ -210,6 +215,7 @@ class ImageOptimiserService
      * get the quality for jpg and png respectively based on the given quality out of 100.
      *
      * @param int $quality
+     *
      * @return array
      */
     protected function getQualityLevels($quality): array

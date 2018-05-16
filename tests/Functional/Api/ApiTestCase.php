@@ -2,8 +2,8 @@
 
 namespace Tests\Functional\Api;
 
-use TestCase;
 use Laravel\Lumen\Testing\DatabaseMigrations;
+use TestCase;
 
 class ApiTestCase extends TestCase
 {
@@ -19,7 +19,7 @@ class ApiTestCase extends TestCase
             'id',
             'type',
             'status',
-            'attributes' => ['name']
+            'attributes' => ['name'],
         ],
     ];
 
@@ -53,5 +53,4 @@ class ApiTestCase extends TestCase
             'Resource not found',
         ],
     ];
-
 }

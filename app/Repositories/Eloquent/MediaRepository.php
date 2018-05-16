@@ -2,8 +2,8 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Media;
 use App\Models\Container;
+use App\Models\Media;
 use App\Repositories\Contracts\MediaRepositoryInterface;
 
 class MediaRepository extends AbstractBaseRepository implements MediaRepositoryInterface
@@ -29,6 +29,7 @@ class MediaRepository extends AbstractBaseRepository implements MediaRepositoryI
      * Get all media items belonging to the given container.
      *
      * @param \App\Models\Container $container
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getAllMediaBelongingToContainer(Container $container)
@@ -42,6 +43,7 @@ class MediaRepository extends AbstractBaseRepository implements MediaRepositoryI
      *
      * @param \App\Models\Container $container
      * @param int                   $mediaId
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function getMediaItemBelongingToContainer(Container $container, $mediaId)
@@ -49,5 +51,4 @@ class MediaRepository extends AbstractBaseRepository implements MediaRepositoryI
         return $this->where('container_id', '=', $container->id)->where('id', $mediaId)
             ->getQueryInstance()->withCompressedCopies()->firstOrFail();
     }
-
 }
