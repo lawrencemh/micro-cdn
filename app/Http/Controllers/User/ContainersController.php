@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Services\ContainerService;
 use App\Http\Controllers\Controller;
 use App\Jobs\Container\DeleteContainerJob;
+use App\Services\ContainerService;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ContainersController extends Controller
 {
@@ -21,6 +21,7 @@ class ContainersController extends Controller
      * ContainerController constructor.
      *
      * @param \App\Services\ContainerService $containerService
+     *
      * @return void
      */
     public function __construct(ContainerService $containerService)
@@ -33,6 +34,7 @@ class ContainersController extends Controller
      * Return a JSON list of all the authorised user's containers.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
@@ -50,6 +52,7 @@ class ContainersController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int                      $containerId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Request $request, $containerId)
@@ -61,13 +64,11 @@ class ContainersController extends Controller
             return $this->responseService()->json()
                 ->setReturnObject($container->toArray(), 'Container')
                 ->render();
-
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // Resource not found or not owned by authorised user
             return $this->responseService()->json()
                 ->resourceNotFound();
-
         }
     }
 
@@ -75,6 +76,7 @@ class ContainersController extends Controller
      * Store a new Container for the authorised user in the database.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -107,6 +109,7 @@ class ContainersController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int                      $containerId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $containerId)
@@ -134,13 +137,11 @@ class ContainersController extends Controller
                 ->setReturnObject($container->toArray(), 'Container')
                 ->setResponseCode(200)
                 ->render();
-
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // Resource not found or not owned by authorised user
             return $this->responseService()->json()
                 ->resourceNotFound();
-
         }
     }
 
@@ -149,6 +150,7 @@ class ContainersController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int                      $containerId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request, $containerId)
@@ -165,14 +167,11 @@ class ContainersController extends Controller
                 ->setReturnObject($container->toArray(), 'Container', 'deleted')
                 ->setResponseCode(202)
                 ->render();
-
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // Resource not found or not owned by authorised user
             return $this->responseService()->json()
                 ->resourceNotFound();
-
         }
-
     }
 }

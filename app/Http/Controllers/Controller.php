@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\ResponseService;
+use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -23,6 +23,7 @@ class Controller extends BaseController
      *
      * @param \Illuminate\Http\Request $request
      * @param array                    $errors
+     *
      * @return \App\Http\Controllers\JsonResponse|mixed
      */
     protected function buildFailedValidationResponse(Request $request, array $errors)

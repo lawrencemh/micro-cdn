@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         // the User instance via an API token or any other method necessary.
 
         $this->app['auth']->viaRequest('api', function ($request) {
-            $apiToken    = $this->retrieveApiKeyFromRequest($request);
+            $apiToken = $this->retrieveApiKeyFromRequest($request);
             $minsToCache = env('CACHE_USER_TOKEN_MINUTES', null);
 
             $user = app('cache')->remember("user_$apiToken", $minsToCache, function () use ($apiToken) {
@@ -46,6 +46,7 @@ class AuthServiceProvider extends ServiceProvider
      * Retrieve the api token form the request headers or parameters.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return string|null
      */
     protected function retrieveApiKeyFromRequest(Request $request)

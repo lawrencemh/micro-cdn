@@ -32,11 +32,12 @@ abstract class AbstractBaseRepository
      * Create a new entity for the given model.
      *
      * @param array $input
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $input)
     {
-        $model = new $this->model;
+        $model = new $this->model();
         $model->fill($input);
         $model->save();
 
@@ -47,6 +48,7 @@ abstract class AbstractBaseRepository
      * Delete the given entity.
      *
      * @param int $id
+     *
      * @return bool
      */
     public function destroy(int $id)
@@ -58,6 +60,7 @@ abstract class AbstractBaseRepository
      * Find a model by its ID.
      *
      * @param int $id
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function findById(int $id)
@@ -102,7 +105,7 @@ abstract class AbstractBaseRepository
      */
     protected function retrieveOrCreateQueryInstance()
     {
-        return $this->queryBuilder ?? $this->queryBuilder = new $this->model;
+        return $this->queryBuilder ?? $this->queryBuilder = new $this->model();
     }
 
     /**
@@ -110,6 +113,7 @@ abstract class AbstractBaseRepository
      *
      * @param int   $id
      * @param array $input
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateById(int $id, array $input)
@@ -128,6 +132,7 @@ abstract class AbstractBaseRepository
      * @param null   $operator
      * @param null   $value
      * @param string $boolean
+     *
      * @return $this
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and')
@@ -136,5 +141,4 @@ abstract class AbstractBaseRepository
 
         return $this;
     }
-
 }
