@@ -50,37 +50,37 @@ The following endpoints are available.
 #### User Containers `/containers`
 Available verbs: `GET`, `POST`, `PATCH`, `DELETE`
 
-#####`microcdn.com/containers` `GET`
+##### `microcdn.com/containers` `GET`
 This route is used to display all the given user's containers.
 
-#####`microcdn.com/containers/{id}` `GET`
+##### `microcdn.com/containers/{id}` `GET`
 This route is used to display the given container that belongs to the user.
 
-#####`microcdn.com/containers` `POST`
+##### `microcdn.com/containers` `POST`
 This route can be used to create a new container to store images and requires the intended `name` of the container to be posted.
 
-#####`microcdn.com/containers/{id}` `PATCH`
+##### `microcdn.com/containers/{id}` `PATCH`
 This route can be used to change the name of an existing container by providing the new `name` in the payload.
 
-#####`microcdn.com/containers/{id}` `DELETE`
+##### `microcdn.com/containers/{id}` `DELETE`
 This route can be used to permanently destroy a given container as well as any media that belongs to it.
 
 
 #### User Containers `/containers/{id}/media`
 Available verbs: `GET`, `POST`, `PATCH`, `DELETE`
 
-#####`microcdn.com/containers/{id}/media` `GET`
+##### `microcdn.com/containers/{id}/media` `GET`
 This route is used to display all the media for a given container.
 
-#####`microcdn.com/containers/{id}/media/{id}` `GET`
+##### `microcdn.com/containers/{id}/media/{id}` `GET`
 This route is used to display a given media item for the container in addition to the sized versions of the image.
 
-#####`microcdn.com/containers/{id}/media` `POST`
+##### `microcdn.com/containers/{id}/media` `POST`
 This route allows you to add a new image to the container by posting a multipart form request with the `media_item` being the file to upload.
 
-#####`microcdn.com/containers/{id}/media/{id}` `PATCH`
+##### `microcdn.com/containers/{id}/media/{id}` `PATCH`
 This route allows you to add `meta_data` to an existing image item. The `meta_data` should be in array format.
 
-#####`microcdn.com/containers/{id}/media/{id}` `DELETE`
+##### `microcdn.com/containers/{id}/media/{id}` `DELETE`
 This route allows you to permanently remove a media item from the given container. This will also remove it from storage.
 
