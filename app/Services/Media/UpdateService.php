@@ -30,6 +30,7 @@ class UpdateService
      * UpdateService constructor.
      *
      * @param \App\Models\Media $media
+     *
      * @return void
      */
     public function __construct(Media $media)
@@ -42,6 +43,7 @@ class UpdateService
      *
      * @param array $array
      * @param bool  $ignoreProtectedKeyCheck
+     *
      * @return $this
      */
     public function addOrUpdateUserMetaData($array = [], $ignoreProtectedKeyCheck = false)

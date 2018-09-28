@@ -10,6 +10,7 @@ interface MediaRepositoryInterface extends BaseRepositoryInterface
      * Get all media items belonging to the given container.
      *
      * @param \App\Models\Container $container
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getAllMediaBelongingToContainer(Container $container);
@@ -19,8 +20,8 @@ interface MediaRepositoryInterface extends BaseRepositoryInterface
      *
      * @param \App\Models\Container $container
      * @param int                   $mediaId
+     *
      * @return \App\Models\Media
      */
     public function getMediaItemBelongingToContainer(Container $container, $mediaId);
-
 }
