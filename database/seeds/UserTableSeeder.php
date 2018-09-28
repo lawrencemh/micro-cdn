@@ -14,15 +14,14 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        
+
         User::firstOrCreate(
-                ['email' => 'admin@cdn.com', 'id' => 1],
-                [
-                    'name' => 'Admin',
-                    'password' => app('hash')->make('password'),
-                    'api_token' => $faker->uuid,
-                    'is_admin' => true,
-                ]
-            );
+            ['email' => 'admin@cdn.com'],
+            [
+                'name'      => 'Admin',
+                'api_token' => $faker->uuid,
+                'is_admin'  => true,
+            ]
+        );
     }
 }
