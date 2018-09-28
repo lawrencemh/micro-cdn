@@ -9,7 +9,7 @@ class MetaDataUpdateTest extends ApiTestCase
 {
     public function test_media_service_forbids_adding_forbidden_meta_data()
     {
-        $mediaService = new MediaService;
+        $mediaService = new MediaService();
 
         $media = factory('App\Models\Media')->make([
             'file_mime' => 'jpg',

@@ -33,7 +33,7 @@ class CreateUser extends Command
      * CreateUser constructor.
      *
      * @param \App\Models\User $user
-     * @param \Faker\Factory $faker
+     * @param \Faker\Factory   $faker
      */
     public function __construct(User $user, Faker $faker)
     {
@@ -46,28 +46,30 @@ class CreateUser extends Command
      * Execute the console command.
      *
      * @return int
+     *
      * @todo move into user()->create() service.
      */
     public function handle()
     {
-        $name = $this->ask('What is the user\'s full name?');
-        $email = $this->ask('What is the user\'s email?');
+        $name    = $this->ask('What is the user\'s full name?');
+        $email   = $this->ask('What is the user\'s email?');
         $isAdmin = $this->confirm('Should this user be an admin?', false);
 
-        $this->info("You are about to create the following user:");
+        $this->info('You are about to create the following user:');
         $this->table(['Name', 'Email', 'Is an admin'], [[$name, $email, $isAdmin]]);
         if ($this->confirm('Do you wish to continue?', false) === false) {
             return 3;
         }
 
-        $this->user->name = $name;
-        $this->user->email = $email;
-        $this->user->is_admin = $isAdmin;
+        $this->user->name      = $name;
+        $this->user->email     = $email;
+        $this->user->is_admin  = $isAdmin;
         $this->user->api_token = $this->faker->uuid;
         $this->user->save();
 
         $this->info("User #{$this->user->id} has been successfully created. Their api token is:");
         $this->info($this->user->api_token);
+
         return 0;
     }
 }

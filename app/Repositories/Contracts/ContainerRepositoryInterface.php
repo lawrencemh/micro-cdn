@@ -10,6 +10,7 @@ interface ContainerRepositoryInterface extends BaseRepositoryInterface
      * Return all containers that belong to the given user.
      *
      * @param \App\Models\User $user
+     *
      * @return mixed
      */
     public function getAllContainersBelongingToUser(User $user);
@@ -19,8 +20,8 @@ interface ContainerRepositoryInterface extends BaseRepositoryInterface
      *
      * @param \App\Models\User $user
      * @param                  $containerId
+     *
      * @return mixed
      */
     public function getContainerBelongingToUser(User $user, $containerId);
-
 }
