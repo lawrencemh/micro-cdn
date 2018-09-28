@@ -1,12 +1,17 @@
 language: php
 
 php:
-  - 7.1
+ - 7.1
 
-before-script:
-  - cp .env.example .env
-  - composer self-update
-  - composer install --no-interaction
+services:
+ - mysql
+
+before_script:
+ - cp .env.travis .env
+ - mysql -e 'create database testing;'
+ - composer self-update
+ - composer install --no-interaction
+ - php artisan migrate --seed
 
 script:
-  - vendor/bin/phpunit
+ - vendor/bin/phpunit
